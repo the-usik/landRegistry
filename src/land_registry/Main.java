@@ -27,7 +27,6 @@ public class Main extends Application {
 
     public void close() {
         database.closeConnection();
-        System.out.println("test");
     }
 
     public Stage getPrimaryStage() {
