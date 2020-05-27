@@ -22,12 +22,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        sceneManager.switchScene(SceneManager.SceneNames.MAIN);
+        sceneManager.switchScene(SceneManager.SceneNames.LOGIN);
     }
 
     public void close() {
         database.closeConnection();
-        System.out.println("До связи...");
+        System.out.println("test");
     }
 
     public Stage getPrimaryStage() {
