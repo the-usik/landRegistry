@@ -1,0 +1,151 @@
+* {
+    -fx-focus-color: transparent;
+}
+
+.tab-pane {
+    -fx-background-color: #fff;
+}
+.tab-pane .tab-header-background {
+    -fx-background-color: #009933;
+}
+
+.tab-pane:top *.tab-header-area {
+    -fx-padding: 5px 5px -2px 10px;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #fff;
+	-fx-background-radius: 8 8 0 0;
+    -fx-padding: 5px 50px;
+    -fx-alignment: CENTER;
+    -fx-cursor: hand;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-focus-color: transparent;
+}
+
+
+.button {
+    -fx-background-color: #009933;
+    -fx-background-radius: 5;
+    -fx-padding: 5px 10px;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    -fx-font-family: "Arial Medium";
+}
+
+.text-field {
+    -fx-padding: 5 10px;
+    -fx-background-radius: 5;
+    -fx-focus-color: transparent;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-background-color: #f5f5f5;
+}
+
+.menu-button {
+    -fx-background-color: #eee;
+    -fx-border-radius: 5;
+    -fx-border-color: #ccc;
+    -fx-background-radius: 5;
+}
+
+.choice-box {
+    -fx-background-color: #eee;
+    -fx-effect: dropShadow(
+        three-pass-box,
+        rgba(0, 0, 0, .2),
+        1, 0, 0, 1
+    );
+}
+
+.choice-box .context-menu {
+    -fx-padding: 0;
+    -fx-background-radius: 10;
+    -fx-text-fill: #000;
+}
+.choice-box .menu-item:focused {
+    -fx-background-insets: 2px;
+    -fx-background-radius: 5px;
+    -fx-background-color: #eee;
+}
+.choice-box .menu-item > .label { -fx-text-align: center; }
+.choice-box .menu-item:focused > .label { -fx-text-fill: black; }
+
+/* TABLE VIEW STYLING */
+
+.table-view {
+    -fx-base: #fff;
+    -fx-background-color: #eee;
+    -fx-control-inner-background: #fff;
+    -fx-table-cell-border-color: #eee;
+    -fx-table-header-border-color: #eee;
+    -fx-padding: 5;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.table-view > .placeholder {
+}
+
+.table-view .column-header-background {
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-background-color: #fff;
+    -fx-background-insets: 2;
+}
+.table-view .column-header {
+    -fx-background-color: #fff;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-alignment: CENTER;
+    -fx-border-color: #eee;
+    -fx-background-insets: 2;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+   -fx-text-fill: #222;
+   -fx-alignment: CENTER;
+}
+
+.table-view .cell {
+  -fx-alignment: CENTER;
+}
+
+.table-row-cell {
+    -fx-background-insets: 1;
+    -fx-background-radius: 5;
+}
+.table-row-cell:selected {
+   -fx-text-background-color: #222;
+}
+
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button, .table-view .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 2em;
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
+	-fx-background-color: transparent;
+	-fx-border-color: #666;
+	-fx-background-radius: 2em;
+	-fx-border-radius: 2em;
+}
+
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #666;
+	-fx-background-radius: 2em;
+
+}
