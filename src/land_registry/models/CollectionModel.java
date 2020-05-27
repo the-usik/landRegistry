@@ -3,13 +3,14 @@ package land_registry.models;
 import org.bson.types.ObjectId;
 
 public class CollectionModel {
-    protected final ObjectId id;
+    protected final ObjectId _id;
 
     public CollectionModel(ObjectId id) {
-        this.id = id;
+        this._id = id;
     }
 
-    public ObjectId getId() {
-        return id;
+    // I didn't want...
+    public ObjectId get_id() {
+        return _id;
     }
 }

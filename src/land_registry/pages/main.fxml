@@ -22,7 +22,19 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <Pane layoutX="10.0" layoutY="50.0" prefHeight="310.0" prefWidth="580.0">
+                        <ButtonBar buttonOrder="" layoutY="10.0" prefHeight="27.0" prefWidth="371.0">
+                            <buttons>
+                                <Button fx:id="addDataButton" mnemonicParsing="false" text="Add data"/>
+                                <Button fx:id="removeDataButton" mnemonicParsing="false" prefHeight="26.0"
+                                        prefWidth="112.0" text="Delete data"/>
+                                <Button fx:id="editDataButton" mnemonicParsing="false" text="Edit data"/>
+                                <ChoiceBox fx:id="choiceBox" prefWidth="150.0"/>
+                            </buttons>
+                        </ButtonBar>
+                        <TextField fx:id="searchField" layoutX="382.0" layoutY="10.0" prefHeight="30.0"
+                                   prefWidth="207.0" promptText="Search data..."/>
+                        <Pane fx:id="tableWrapperPane" layoutX="10.0" layoutY="50.0" prefHeight="310.0"
+                              prefWidth="580.0">
                             <children>
                                 <TableView fx:id="tableView" editable="true" focusTraversable="false" layoutX="4.0"
                                            prefHeight="310.0" prefWidth="580.0">
@@ -37,17 +49,6 @@
                                              prefWidth="338.0" progress="0.0" visible="false"/>
                             </children>
                         </Pane>
-                        <ButtonBar buttonOrder="" layoutY="10.0" prefHeight="27.0" prefWidth="371.0">
-                            <buttons>
-                                <Button fx:id="addDataButton" mnemonicParsing="false" text="Add data"/>
-                                <Button fx:id="removeDataButton" mnemonicParsing="false" prefHeight="26.0"
-                                        prefWidth="112.0" text="Delete data"/>
-                                <Button fx:id="editDataButton" mnemonicParsing="false" text="Edit data"/>
-                                <ChoiceBox fx:id="choiceBox" prefWidth="150.0"/>
-                            </buttons>
-                        </ButtonBar>
-                        <TextField fx:id="searchField" layoutX="382.0" layoutY="10.0" prefHeight="30.0"
-                                   prefWidth="207.0" promptText="Search data..."/>
                     </children>
                 </AnchorPane>
             </content>

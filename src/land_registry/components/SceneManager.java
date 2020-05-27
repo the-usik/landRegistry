@@ -13,8 +13,8 @@ import java.util.HashMap;
 public class SceneManager {
     private final String DEFAULT_WINDOW_TITLE = "Land Registry | by Usein Abilev";
 
-    private Main mainContext;
-    private HashMap<SceneNames, SceneWrapper> scenes = new HashMap();
+    private final Main mainContext;
+    private final HashMap<SceneNames, SceneWrapper> scenes = new HashMap<>();
     private Stage currentStage;
 
     public enum SceneNames {
@@ -89,7 +89,6 @@ public class SceneManager {
     public SceneWrapper getSceneWrapper(SceneNames sceneName) {
         return scenes.get(sceneName);
     }
-
 
     public void addSceneWrapper(SceneNames sceneName, SceneWrapper scene) {
         scenes.put(sceneName, scene);
