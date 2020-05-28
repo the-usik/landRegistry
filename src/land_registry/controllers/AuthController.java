@@ -31,6 +31,19 @@ public class AuthController extends Controller implements Initializable {
     @FXML
     private Label authMessageLabel;
 
+    @Override
+    public void onShowing() {
+    }
+
+    @Override
+    public void onMainContextInit() {
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
     @FXML
     private void onAuthButtonClick(MouseEvent event) {
         boolean isValid = isValidAccountData(loginInput.getText(), passwordInput.getText());
@@ -63,14 +76,5 @@ public class AuthController extends Controller implements Initializable {
         FindIterable<Document> findResult = usersCollection.find(authDocument);
 
         return (findResult.first() != null);
-    }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
-    @Override
-    public void onShowing() {
     }
 }

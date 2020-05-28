@@ -53,12 +53,8 @@ public class MainController extends Controller implements Initializable {
     private LandRegistryDatabase.Collection activeTableCollection;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        choiceBox.setOnAction(this::onChoiceBoxAction);
-        searchField.setOnKeyTyped(this::onInputDataSearchField);
-        addDataButton.setOnMouseClicked(this::onAddDataButtonClick);
-        editDataButton.setOnMouseClicked(this::onEditDataButtonClick);
-        removeDataButton.setOnMouseClicked(this::onRemoveDataButtonClick);
+    public void onMainContextInit() {
+        System.out.println("main context inited!");
     }
 
     @Override
@@ -69,6 +65,15 @@ public class MainController extends Controller implements Initializable {
         loadTableCollectionsOnPage();
         loadChoiceDatabaseItems();
         setActiveCollection(LandRegistryDatabase.Collection.LANDS);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        choiceBox.setOnAction(this::onChoiceBoxAction);
+        searchField.setOnKeyTyped(this::onInputDataSearchField);
+        addDataButton.setOnMouseClicked(this::onAddDataButtonClick);
+        editDataButton.setOnMouseClicked(this::onEditDataButtonClick);
+        removeDataButton.setOnMouseClicked(this::onRemoveDataButtonClick);
     }
 
     private void initTableViewMap() {
@@ -115,13 +120,9 @@ public class MainController extends Controller implements Initializable {
         choiceBox.setValue(activeTableCollection);
     }
 
-    private LandRegistryDatabase.Collection getSelectedTableCollectionName() {
-        return choiceBox.getValue();
-    }
-
     private void onChoiceBoxAction(ActionEvent actionEvent) {
         hideActiveTables();
-        setActiveCollection(getSelectedTableCollectionName());
+        setActiveCollection(choiceBox.getValue());
     }
 
     private void onInputDataSearchField(KeyEvent keyEvent) {
@@ -130,7 +131,6 @@ public class MainController extends Controller implements Initializable {
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
     }
-
 
     private void onEditDataButtonClick(MouseEvent mouseEvent) {
         System.out.println("editing data...");
