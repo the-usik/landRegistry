@@ -3,6 +3,7 @@ package land_registry.components;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import javafx.scene.control.TableView;
 import land_registry.models.*;
 import org.bson.Document;
 
@@ -16,18 +17,17 @@ public class LandRegistryDatabase {
 
     private final MongoClient mongoClient;
     private final MongoDatabase mongoDatabase;
-    private final HashMap<CollectionNames, MongoCollection<Document>> collections = new HashMap<>();
+    private final HashMap<Collection, MongoCollection<Document>> collections = new HashMap<>();
 
-    public enum CollectionNames {
-        LAND_OWNERS("landOwners"), LANDS("lands"),
-        REGIONS("regions"), USERS("users");
+    public enum Collection {
+        LAND_OWNERS("landOwners"), REGIONS("regions"),
+        LANDS("lands"), USERS("users");
 
         private final String collectionName;
 
-        CollectionNames(String collectionName) {
+        Collection(String collectionName) {
             this.collectionName = collectionName;
         }
-
 
         public String getCollectionName() {
             return collectionName;
@@ -40,20 +40,18 @@ public class LandRegistryDatabase {
 
         mongoClient = new MongoClient(DATABASE_HOST);
         mongoDatabase = mongoClient.getDatabase(DATABASE_NAME);
-
-        collections.put(CollectionNames.LANDS, mongoDatabase.getCollection(CollectionNames.LANDS.getCollectionName()));
-        collections.put(CollectionNames.USERS, mongoDatabase.getCollection(CollectionNames.USERS.getCollectionName()));
-        collections.put(CollectionNames.REGIONS, mongoDatabase.getCollection(CollectionNames.REGIONS.getCollectionName()));
-        collections.put(CollectionNames.LAND_OWNERS, mongoDatabase.getCollection(CollectionNames.LAND_OWNERS.getCollectionName()));
+        collections.put(Collection.LANDS, mongoDatabase.getCollection(Collection.LANDS.getCollectionName()));
+        collections.put(Collection.USERS, mongoDatabase.getCollection(Collection.USERS.getCollectionName()));
+        collections.put(Collection.REGIONS, mongoDatabase.getCollection(Collection.REGIONS.getCollectionName()));
+        collections.put(Collection.LAND_OWNERS, mongoDatabase.getCollection(Collection.LAND_OWNERS.getCollectionName()));
     }
 
-    public void addDataToCollection(CollectionNames collectionName, Document document) {
+    public void addDataToCollection(Collection collectionName, Document document) {
         MongoCollection<Document> mongoCollection = getCollection(collectionName);
-
         mongoCollection.insertOne(document);
     }
 
-    public MongoCollection<Document> getCollection(CollectionNames databaseCollection) {
+    public MongoCollection<Document> getCollection(Collection databaseCollection) {
         return collections.get(databaseCollection);
     }
 

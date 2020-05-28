@@ -1,5 +1,6 @@
 package land_registry.models;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 public class CollectionModel {

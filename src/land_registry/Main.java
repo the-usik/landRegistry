@@ -4,6 +4,12 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import land_registry.components.LandRegistryDatabase;
 import land_registry.components.SceneManager;
+import land_registry.models.UsersModel;
+import org.bson.types.ObjectId;
+
+import javax.lang.model.type.NullType;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class Main extends Application {
     private final SceneManager sceneManager;

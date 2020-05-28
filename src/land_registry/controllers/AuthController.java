@@ -55,7 +55,7 @@ public class AuthController extends Controller implements Initializable {
     }
 
     private boolean isValidAccountData(String userLogin, String userPassword) {
-        MongoCollection<Document> usersCollection = mainContext.getDatabase().getCollection(LandRegistryDatabase.CollectionNames.USERS);
+        MongoCollection<Document> usersCollection = mainContext.getDatabase().getCollection(LandRegistryDatabase.Collection.USERS);
         Document authDocument = new Document();
         authDocument.append("username", userLogin);
         authDocument.append("password", userPassword);

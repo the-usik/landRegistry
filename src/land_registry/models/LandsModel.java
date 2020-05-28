@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.NotNull;
 
 public class LandsModel extends CollectionModel {
     private final ObjectId regionId;
@@ -11,6 +12,14 @@ public class LandsModel extends CollectionModel {
     private final SimpleDoubleProperty price;
     private final SimpleDoubleProperty plottage;
     private final SimpleBooleanProperty forConstruction;
+
+    public LandsModel(@NotNull Document document) {
+        this(
+                document.getObjectId("_id"), document.getObjectId("regionId"),
+                document.getObjectId("ownerId"), document.getDouble("plottage"),
+                document.getBoolean("forConstruction"), document.getDouble("price")
+        );
+    }
 
     public LandsModel(
             ObjectId id, ObjectId regionId, ObjectId ownerId,
@@ -42,13 +51,5 @@ public class LandsModel extends CollectionModel {
 
     public boolean getForConstruction() {
         return forConstruction.get();
-    }
-
-    public static LandsModel createModelOfDocument(Document document) {
-        return new LandsModel(
-                document.getObjectId("_id"), document.getObjectId("regionId"),
-                document.getObjectId("ownerId"), document.getDouble("plottage"),
-                document.getBoolean("forConstruction"), document.getDouble("price")
-        );
     }
 }

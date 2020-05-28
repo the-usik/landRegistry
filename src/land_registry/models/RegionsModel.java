@@ -2,12 +2,21 @@ package land_registry.models;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.NotNull;
 
 public class RegionsModel extends CollectionModel {
     private final ObjectId[] landIds;
     private final SimpleStringProperty address;
     private final SimpleDoubleProperty totalAreaSize;
+
+    public RegionsModel(@NotNull Document document) {
+        this(
+                document.getObjectId("_id"), null,
+                document.getString("address"), document.getDouble("totalAreaSize")
+        );
+    }
 
     public RegionsModel(
             ObjectId id, ObjectId[] landIds,
