@@ -59,7 +59,15 @@ public class SceneManager {
         Parent parent = loader.load();
         Controller controller = loader.getController();
         if (controller == null) {
-            loader.setController(new Controller());
+            loader.setController(new Controller() {
+                @Override
+                public void onShowing() {
+                }
+
+                @Override
+                public void onMainContextInit() {
+                }
+            });
             controller = loader.getController();
         }
         controller.setMainContext(mainContext);

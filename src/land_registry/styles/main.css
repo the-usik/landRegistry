@@ -26,7 +26,6 @@
     -fx-focus-color: transparent;
 }
 
-
 .button {
     -fx-background-color: #009933;
     -fx-background-radius: 5;
@@ -85,6 +84,8 @@
     -fx-padding: 5;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
+    -fx-pref-width: 580;
+    -fx-pref-height: 310;
 }
 
 .table-view > .placeholder {
