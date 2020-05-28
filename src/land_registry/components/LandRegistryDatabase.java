@@ -3,8 +3,6 @@ package land_registry.components;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import javafx.scene.control.TableView;
-import land_registry.models.*;
 import org.bson.Document;
 
 import java.util.HashMap;
@@ -40,10 +38,9 @@ public class LandRegistryDatabase {
 
         mongoClient = new MongoClient(DATABASE_HOST);
         mongoDatabase = mongoClient.getDatabase(DATABASE_NAME);
-        collections.put(Collection.LANDS, mongoDatabase.getCollection(Collection.LANDS.getCollectionName()));
-        collections.put(Collection.USERS, mongoDatabase.getCollection(Collection.USERS.getCollectionName()));
-        collections.put(Collection.REGIONS, mongoDatabase.getCollection(Collection.REGIONS.getCollectionName()));
-        collections.put(Collection.LAND_OWNERS, mongoDatabase.getCollection(Collection.LAND_OWNERS.getCollectionName()));
+        for (Collection collection : Collection.values()) {
+            collections.put(collection, mongoDatabase.getCollection(collection.getCollectionName()));
+        }
     }
 
     public void addDataToCollection(Collection collectionName, Document document) {
