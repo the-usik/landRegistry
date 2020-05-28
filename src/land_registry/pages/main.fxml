@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-         prefWidth="600.0" stylesheets="@../styles/main.css" tabClosingPolicy="UNAVAILABLE"
-         xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="land_registry.controllers.MainController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="land_registry.controllers.MainController">
     <tabs>
         <Tab closable="false" text="Main">
             <content>
@@ -24,29 +12,16 @@
                     <children>
                         <ButtonBar buttonOrder="" layoutY="10.0" prefHeight="27.0" prefWidth="371.0">
                             <buttons>
-                                <Button fx:id="addDataButton" mnemonicParsing="false" text="Add data"/>
-                                <Button fx:id="removeDataButton" mnemonicParsing="false" prefHeight="26.0"
-                                        prefWidth="112.0" text="Delete data"/>
-                                <Button fx:id="editDataButton" mnemonicParsing="false" text="Edit data"/>
-                                <ChoiceBox fx:id="choiceBox" prefWidth="150.0"/>
+                                <Button fx:id="addDataButton" mnemonicParsing="false" text="Add data" />
+                                <Button fx:id="removeDataButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" text="Delete data" />
+                                <Button fx:id="editDataButton" mnemonicParsing="false" text="Edit data" />
+                                <ChoiceBox fx:id="choiceBox" prefWidth="150.0" />
                             </buttons>
                         </ButtonBar>
-                        <TextField fx:id="searchField" layoutX="382.0" layoutY="10.0" prefHeight="30.0"
-                                   prefWidth="207.0" promptText="Search data..."/>
-                        <Pane fx:id="tableWrapperPane" layoutX="10.0" layoutY="50.0" prefHeight="310.0"
-                              prefWidth="580.0">
+                        <TextField fx:id="searchField" layoutX="382.0" layoutY="10.0" prefHeight="30.0" prefWidth="207.0" promptText="Search data..." />
+                        <Pane fx:id="tableWrapperPane" layoutX="10.0" layoutY="50.0" prefHeight="310.0" prefWidth="580.0">
                             <children>
-                                <TableView fx:id="tableView" editable="true" focusTraversable="false" layoutX="4.0"
-                                           prefHeight="310.0" prefWidth="580.0">
-                                    <columns>
-                                        <TableColumn prefWidth="75.0" text="C1"/>
-                                        <TableColumn prefWidth="75.0" text="C2"/>
-                                        <TableColumn prefWidth="75.0" text="Column X"/>
-                                        <TableColumn prefWidth="75.0" text="Column X"/>
-                                    </columns>
-                                </TableView>
-                                <ProgressBar fx:id="progressBar" layoutX="121.0" layoutY="143.0" prefHeight="25.0"
-                                             prefWidth="338.0" progress="0.0" visible="false"/>
+                                <ProgressBar fx:id="progressBar" layoutX="121.0" layoutY="143.0" prefHeight="25.0" prefWidth="338.0" progress="0.0" visible="false" />
                             </children>
                         </Pane>
                     </children>
@@ -59,9 +34,7 @@
                     <children>
                         <Pane layoutX="8.0" layoutY="14.0" prefHeight="274.0" prefWidth="582.0">
                             <children>
-                                <Text layoutX="144.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="Developed by Usein Abilev" textAlignment="CENTER"
-                                      wrappingWidth="294.13665771484375"/>
+                                <Text layoutX="144.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developed by Usein Abilev" textAlignment="CENTER" wrappingWidth="294.13665771484375" />
                             </children>
                         </Pane>
                     </children>

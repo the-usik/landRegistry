@@ -17,7 +17,6 @@ import javafx.scene.layout.Pane;
 import land_registry.components.LandRegistryDatabase;
 import land_registry.models.*;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -45,16 +44,13 @@ public class MainController extends Controller implements Initializable {
     private ProgressBar progressBar;
 
     @FXML
-    private TableView<String> tableView;
+    private ChoiceBox<LandRegistryDatabase.Collection> choiceBox;
 
     @FXML
     private HashMap<LandRegistryDatabase.Collection, TableView<? extends CollectionModel>> tableViewMap = new HashMap<>();
 
-    @FXML
-    private ChoiceBox<LandRegistryDatabase.Collection> choiceBox;
-
     private LandRegistryDatabase database;
-    private LandRegistryDatabase.Collection selectedTableName;
+    private LandRegistryDatabase.Collection activeTableCollection;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,7 +66,9 @@ public class MainController extends Controller implements Initializable {
         database = mainContext.getDatabase();
 
         initTableViewMap();
+        loadTableCollectionsOnPage();
         loadChoiceDatabaseItems();
+        setActiveCollection(LandRegistryDatabase.Collection.LANDS);
     }
 
     private void initTableViewMap() {
@@ -90,6 +88,56 @@ public class MainController extends Controller implements Initializable {
                 LandRegistryDatabase.Collection.USERS,
                 createDynamicTableForCollection(LandRegistryDatabase.Collection.USERS, UsersModel.class)
         );
+    }
+
+    private void loadTableCollectionsOnPage() {
+        tableWrapperPane
+                .getChildren()
+                .setAll(tableViewMap.values());
+    }
+
+    private void loadChoiceDatabaseItems() {
+        choiceBox
+                .getItems()
+                .setAll(LandRegistryDatabase.Collection.values());
+    }
+
+    private void hideActiveTables() {
+        for (LandRegistryDatabase.Collection collection : LandRegistryDatabase.Collection.values()) {
+            if (tableViewMap.get(collection).isVisible())
+                tableViewMap.get(collection).setVisible(false);
+        }
+    }
+
+    private void setActiveCollection(LandRegistryDatabase.Collection collection) {
+        activeTableCollection = collection;
+        tableViewMap.get(collection).setVisible(true);
+        choiceBox.setValue(activeTableCollection);
+    }
+
+    private LandRegistryDatabase.Collection getSelectedTableCollectionName() {
+        return choiceBox.getValue();
+    }
+
+    private void onChoiceBoxAction(ActionEvent actionEvent) {
+        hideActiveTables();
+        setActiveCollection(getSelectedTableCollectionName());
+    }
+
+    private void onInputDataSearchField(KeyEvent keyEvent) {
+        System.out.println("Searching data...");
+    }
+
+    private void onAddDataButtonClick(MouseEvent mouseEvent) {
+    }
+
+
+    private void onEditDataButtonClick(MouseEvent mouseEvent) {
+        System.out.println("editing data...");
+    }
+
+    private void onRemoveDataButtonClick(MouseEvent mouseEvent) {
+        System.out.println("removing data....");
     }
 
     private <T extends CollectionModel> TableView<T> createDynamicTableForCollection(LandRegistryDatabase.Collection collectionName, Class<T> collectionModel) {
@@ -121,35 +169,5 @@ public class MainController extends Controller implements Initializable {
 
         collectionTableView.setItems(collectionData);
         return collectionTableView;
-    }
-
-    private void loadChoiceDatabaseItems() {
-        choiceBox.getItems().addAll(LandRegistryDatabase.Collection.values());
-        choiceBox.setValue(LandRegistryDatabase.Collection.LANDS);
-    }
-
-    private void onChoiceBoxAction(ActionEvent actionEvent) {
-        for (LandRegistryDatabase.Collection collection : LandRegistryDatabase.Collection.values()) {
-            tableViewMap.get(collection).setVisible(false);
-        }
-
-        tableViewMap.get(choiceBox.getValue()).setVisible(true);
-        tableWrapperPane.getChildren().setAll(tableViewMap.get(choiceBox.getValue()));
-    }
-
-    private void onInputDataSearchField(KeyEvent keyEvent) {
-        System.out.println("Searching data...");
-    }
-
-    private void onAddDataButtonClick(MouseEvent mouseEvent) {
-    }
-
-
-    private void onEditDataButtonClick(MouseEvent mouseEvent) {
-        System.out.println("editing data...");
-    }
-
-    private void onRemoveDataButtonClick(MouseEvent mouseEvent) {
-        System.out.println("removing data....");
     }
 }
