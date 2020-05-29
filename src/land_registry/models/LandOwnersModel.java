@@ -5,6 +5,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+
 public class LandOwnersModel extends CollectionModel {
     private final ObjectId[] landIds;
     private final SimpleStringProperty firstName;
@@ -17,6 +19,7 @@ public class LandOwnersModel extends CollectionModel {
                 document.getString("firstName"), document.getString("middleName"),
                 document.getString("lastName")
         );
+        System.out.println(document.get("landIds"));
     }
 
     public LandOwnersModel(ObjectId id, ObjectId[] landIds, String firstName, String middleName, String lastName) {
