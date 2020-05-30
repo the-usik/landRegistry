@@ -23,7 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        sceneManager.switchScene(SceneManager.SceneNames.MAIN);
+        sceneManager.switchScene(SceneManager.SceneNames.AUTH);
     }
 
     public Stage getPrimaryStage() {
@@ -40,6 +40,6 @@ public class Main extends Application {
 
     public void onClose(WindowEvent windowEvent) {
         database.closeConnection();
-        System.out.println("good bay!");
+        System.out.println("goodbye!");
     }
 }

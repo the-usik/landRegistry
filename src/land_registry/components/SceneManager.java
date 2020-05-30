@@ -18,7 +18,7 @@ public class SceneManager {
     private Stage currentStage;
 
     public enum SceneNames {
-        LOGIN, MAIN
+        AUTH, MAIN
     }
 
     private class SceneWrapper {
@@ -47,7 +47,7 @@ public class SceneManager {
 
     private void initScenes() {
         try {
-            this.addSceneWrapper(SceneNames.LOGIN, loadScene("./pages/auth.fxml", 350, 350));
+            this.addSceneWrapper(SceneNames.AUTH, loadScene("./pages/auth.fxml", 350, 350));
             this.addSceneWrapper(SceneNames.MAIN, loadScene("./pages/main.fxml", 600, 400));
         } catch (IOException exception) {
             exception.printStackTrace();
