@@ -13,7 +13,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Popup;
 import land_registry.components.LandRegistryDatabase;
 import land_registry.models.*;
 import org.bson.Document;
@@ -130,6 +132,24 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
+        Popup popup = new Popup();
+        popup.setWidth(400);
+        popup.setHeight(300);
+
+        AnchorPane containerPane = new AnchorPane();
+        containerPane.setMinSize(400, 300);
+        containerPane.setStyle("-fx-background-radius: 5; -fx-background-color: #fff;");
+
+        Button closeButton = new Button();
+        closeButton.setCancelButton(true);
+        closeButton.setText("close popup");
+        closeButton.setOnMouseClicked(closeButtonMouseEvent -> popup.hide());
+
+        
+        containerPane.getChildren().add(closeButton);
+        popup.getContent().add(containerPane);
+
+        popup.show(stage);
     }
 
     private void onEditDataButtonClick(MouseEvent mouseEvent) {

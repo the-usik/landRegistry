@@ -6,23 +6,23 @@ import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class LandOwnersModel extends CollectionModel {
-    private final ObjectId[] landIds;
+    private final ArrayList<ObjectId> landIds;
     private final SimpleStringProperty firstName;
     private final SimpleStringProperty middleName;
     private final SimpleStringProperty lastName;
 
     public LandOwnersModel(@NotNull Document document) {
         this(
-                document.getObjectId("_id"), null,
+                document.getObjectId("_id"), (ArrayList<ObjectId>) document.get("landIds"),
                 document.getString("firstName"), document.getString("middleName"),
                 document.getString("lastName")
         );
-        System.out.println(document.get("landIds"));
     }
 
-    public LandOwnersModel(ObjectId id, ObjectId[] landIds, String firstName, String middleName, String lastName) {
+    public LandOwnersModel(ObjectId id, ArrayList<ObjectId> landIds, String firstName, String middleName, String lastName) {
         super(id);
         this.landIds = landIds;
         this.firstName = new SimpleStringProperty(firstName);
@@ -30,7 +30,7 @@ public class LandOwnersModel extends CollectionModel {
         this.lastName = new SimpleStringProperty(lastName);
     }
 
-    public ObjectId[] getLandIds() {
+    public ArrayList<ObjectId> getLandIds() {
         return landIds;
     }
 

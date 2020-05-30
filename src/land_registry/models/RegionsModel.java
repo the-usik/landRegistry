@@ -6,20 +6,22 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class RegionsModel extends CollectionModel {
-    private final ObjectId[] landIds;
+    private final ArrayList<ObjectId> landIds;
     private final SimpleStringProperty address;
     private final SimpleDoubleProperty totalAreaSize;
 
     public RegionsModel(@NotNull Document document) {
         this(
-                document.getObjectId("_id"), null,
+                document.getObjectId("_id"), (ArrayList<ObjectId>) document.get("landIds"),
                 document.getString("address"), document.getDouble("totalAreaSize")
         );
     }
 
     public RegionsModel(
-            ObjectId id, ObjectId[] landIds,
+            ObjectId id, ArrayList<ObjectId> landIds,
             String address, double totalAreaSize
     ) {
         super(id);
@@ -28,7 +30,7 @@ public class RegionsModel extends CollectionModel {
         this.totalAreaSize = new SimpleDoubleProperty(totalAreaSize);
     }
 
-    public ObjectId[] getLandIds() {
+    public ArrayList<ObjectId> getLandIds() {
         return landIds;
     }
 
