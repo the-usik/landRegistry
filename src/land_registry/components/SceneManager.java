@@ -89,7 +89,7 @@ public class SceneManager {
         currentStage.setResizable(false);
         currentStage.setTitle(DEFAULT_WINDOW_TITLE);
         currentStage.setScene(scene);
-        currentStage.setOnCloseRequest(event -> mainContext.close());
+        currentStage.setOnCloseRequest(mainContext::onClose);
         currentStage.setOnShowing(event -> controller.onShowing());
         currentStage.show();
     }

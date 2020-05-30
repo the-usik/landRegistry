@@ -2,6 +2,7 @@ package land_registry;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import land_registry.components.LandRegistryDatabase;
 import land_registry.components.SceneManager;
 
@@ -25,10 +26,6 @@ public class Main extends Application {
         sceneManager.switchScene(SceneManager.SceneNames.MAIN);
     }
 
-    public void close() {
-        database.closeConnection();
-    }
-
     public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -39,5 +36,10 @@ public class Main extends Application {
 
     public SceneManager getSceneManager() {
         return sceneManager;
+    }
+
+    public void onClose(WindowEvent windowEvent) {
+        database.closeConnection();
+        System.out.println("good bay!");
     }
 }

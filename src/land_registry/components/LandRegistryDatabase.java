@@ -43,17 +43,8 @@ public class LandRegistryDatabase {
         }
     }
 
-    public void addDataToCollection(Collection collectionName, Document document) {
-        MongoCollection<Document> mongoCollection = getCollection(collectionName);
-        mongoCollection.insertOne(document);
-    }
-
     public MongoCollection<Document> getCollection(Collection databaseCollection) {
         return collections.get(databaseCollection);
-    }
-
-    public MongoDatabase getMongoDatabase() {
-        return mongoDatabase;
     }
 
     public void closeConnection() {
