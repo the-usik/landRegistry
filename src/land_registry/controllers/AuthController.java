@@ -12,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 import land_registry.components.LandRegistryDatabase;
 import land_registry.components.SceneManager;
 import org.bson.Document;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -53,9 +55,7 @@ public class AuthController extends Controller implements Initializable {
     @FXML
     private void onAuthButtonClick(MouseEvent event) {
         boolean isValid = isValidAccountData(loginInput.getText(), passwordInput.getText());
-        System.out.println(generateHash("test"));
         authMessageLabel.getStyleClass().clear();
-
         if (!isValid) {
             authMessageLabel.getStyleClass().add("error-message");
             authMessageLabel.setText("Login failed. Incorrect login or password.");
@@ -83,7 +83,7 @@ public class AuthController extends Controller implements Initializable {
         return (findResult.first() != null);
     }
 
-    private String generateHash(String inputString) {
+    private @Nullable String generateHash(@NotNull String inputString) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_GENERATION_ALGORITHM);
             byte[] encodedBytes = messageDigest.digest(inputString.getBytes(StandardCharsets.UTF_8));
