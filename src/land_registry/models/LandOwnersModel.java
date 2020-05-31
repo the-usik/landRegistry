@@ -5,7 +5,6 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class LandOwnersModel extends CollectionModel {

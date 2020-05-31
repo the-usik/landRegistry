@@ -8,13 +8,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import land_registry.components.LandRegistryDatabase;
 import land_registry.models.*;
@@ -49,7 +55,7 @@ public class MainController extends Controller implements Initializable {
     private ChoiceBox<LandRegistryDatabase.Collection> choiceBox;
 
     @FXML
-    private HashMap<LandRegistryDatabase.Collection, TableView<? extends CollectionModel>> tableViewMap = new HashMap<>();
+    private final HashMap<LandRegistryDatabase.Collection, TableView<? extends CollectionModel>> tableViewMap = new HashMap<>();
 
     private LandRegistryDatabase database;
     private LandRegistryDatabase.Collection activeTableCollection;
@@ -136,19 +142,31 @@ public class MainController extends Controller implements Initializable {
         popup.setWidth(400);
         popup.setHeight(300);
 
-        AnchorPane containerPane = new AnchorPane();
-        containerPane.setMinSize(400, 300);
-        containerPane.setStyle("-fx-background-radius: 5; -fx-background-color: #fff;");
+        Pane headerPane = new Pane();
+        Pane containerPane = new Pane();
+        Pane footerPane = new Pane();
 
-        Button closeButton = new Button();
-        closeButton.setCancelButton(true);
-        closeButton.setText("close popup");
-        closeButton.setOnMouseClicked(closeButtonMouseEvent -> popup.hide());
+        headerPane.setStyle("-fx-background-color: #222;");
+        containerPane.setStyle("-fx-background-color: #444;");
+        footerPane.setStyle("-fx-background-color: #888;");
 
-        
-        containerPane.getChildren().add(closeButton);
-        popup.getContent().add(containerPane);
+        Label label = new Label();
+        label.setText("Adding Data");
+        label.setAlignment(Pos.CENTER);
+        label.setCenterShape(true);
+        label.setMinWidth(headerPane.getMinWidth());
+        label.setMaxHeight(headerPane.getMinHeight());
+        label.setFont(Font.font("SF Pro Display", 15));
+        headerPane.getChildren().add(label);
 
+        BorderPane borderPane = new BorderPane();
+        borderPane.setMinSize(popup.getWidth(), popup.getHeight());
+        borderPane.setStyle("-fx-background-color: #fff; -fx-background-radius: 2;");
+        borderPane.setTop(headerPane);
+        borderPane.setCenter(containerPane);
+        borderPane.setBottom(footerPane);
+
+        popup.getContent().setAll(borderPane);
         popup.show(stage);
     }
 
