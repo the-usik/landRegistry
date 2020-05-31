@@ -26,6 +26,7 @@ import land_registry.components.LandRegistryDatabase;
 import land_registry.models.*;
 import org.bson.Document;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
@@ -142,31 +143,13 @@ public class MainController extends Controller implements Initializable {
         popup.setWidth(400);
         popup.setHeight(300);
 
-        Pane headerPane = new Pane();
-        Pane containerPane = new Pane();
-        Pane footerPane = new Pane();
+        try {
+            Parent parent = FXMLLoader.load(mainContext.getClass().getResource("./pages/forms/add_form.fxml"));
+            popup.getContent().setAll(parent);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
 
-        headerPane.setStyle("-fx-background-color: #222;");
-        containerPane.setStyle("-fx-background-color: #444;");
-        footerPane.setStyle("-fx-background-color: #888;");
-
-        Label label = new Label();
-        label.setText("Adding Data");
-        label.setAlignment(Pos.CENTER);
-        label.setCenterShape(true);
-        label.setMinWidth(headerPane.getMinWidth());
-        label.setMaxHeight(headerPane.getMinHeight());
-        label.setFont(Font.font("SF Pro Display", 15));
-        headerPane.getChildren().add(label);
-
-        BorderPane borderPane = new BorderPane();
-        borderPane.setMinSize(popup.getWidth(), popup.getHeight());
-        borderPane.setStyle("-fx-background-color: #fff; -fx-background-radius: 2;");
-        borderPane.setTop(headerPane);
-        borderPane.setCenter(containerPane);
-        borderPane.setBottom(footerPane);
-
-        popup.getContent().setAll(borderPane);
         popup.show(stage);
     }
 
