@@ -14,6 +14,7 @@ public class UsersModel extends CollectionModel {
                 document.getObjectId("_id"), document.getString("username"),
                 document.getString("password")
         );
+
     }
 
     public UsersModel(ObjectId id, String username, String password) {

@@ -10,71 +10,52 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/14.0.1"
-            xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/14.0.1">
     <top>
         <Pane prefHeight="54.0" prefWidth="350.0" BorderPane.alignment="CENTER">
-            <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="17.0"
-                       prefWidth="322.0" text="Adding Data">
-                    <font>
-                        <Font name="Fira Code Regular" size="23.0"/>
-                    </font>
-                </Label>
-            </children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="17.0"
+                   prefWidth="322.0" text="Adding Data">
+                <font>
+                    <Font name="Fira Code Regular" size="23.0"/>
+                </font>
+            </Label>
         </Pane>
     </top>
     <center>
         <Pane prefHeight="280.0" prefWidth="350.0">
-            <children>
-                <VBox layoutX="28.0" layoutY="6.0" prefHeight="282.0" prefWidth="300.0">
-                    <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0" text="Region"/>
-                                <ChoiceBox layoutX="136.0" layoutY="16.0" prefWidth="150.0"/>
-                            </children>
-                        </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0" text="Owner"/>
-                                <ChoiceBox layoutX="136.0" layoutY="16.0" prefWidth="150.0"/>
-                            </children>
-                        </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0"
-                                       text="Plottage"/>
-                                <TextField alignment="CENTER" layoutX="137.0" layoutY="16.0"
-                                           promptText="Enter the plottage..."/>
-                            </children>
-                        </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0"
-                                       text="For construction"/>
-                                <ToggleButton layoutX="137.0" layoutY="16.0" mnemonicParsing="false" prefHeight="25.0"
-                                              prefWidth="149.0" text="true"/>
-                            </children>
-                        </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0" text="Price"/>
-                                <TextField alignment="CENTER" layoutX="137.0" layoutY="16.0"
-                                           promptText="Enter the price..."/>
-                            </children>
-                        </Pane>
-                    </children>
-                </VBox>
-            </children>
+            <VBox layoutX="28.0" layoutY="6.0" prefHeight="282.0" prefWidth="300.0">
+                <Pane prefHeight="200.0" prefWidth="200.0">
+                    <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0" text="Region"/>
+                    <ChoiceBox layoutX="136.0" layoutY="16.0" prefWidth="150.0"/>
+                </Pane>
+                <Pane prefHeight="200.0" prefWidth="200.0">
+                    <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0" text="Owner"/>
+                    <ChoiceBox layoutX="136.0" layoutY="16.0" prefWidth="150.0"/>
+                </Pane>
+                <Pane prefHeight="200.0" prefWidth="200.0">
+                    <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0"
+                           text="Plottage"/>
+                    <TextField alignment="CENTER" layoutX="137.0" layoutY="16.0"
+                               promptText="Enter the plottage..."/>
+                </Pane>
+                <Pane prefHeight="200.0" prefWidth="200.0">
+                    <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0"
+                           text="For construction"/>
+                    <ToggleButton layoutX="137.0" layoutY="16.0" mnemonicParsing="false" prefHeight="25.0"
+                                  prefWidth="149.0" text="true"/>
+                </Pane>
+                <Pane prefHeight="200.0" prefWidth="200.0">
+                    <Label layoutX="14.0" layoutY="20.0" prefHeight="17.0" prefWidth="99.0" text="Price"/>
+                    <TextField alignment="CENTER" layoutX="137.0" layoutY="16.0"
+                               promptText="Enter the price..."/>
+                </Pane>
+            </VBox>
         </Pane>
     </center>
     <bottom>
         <Pane prefHeight="50.0" prefWidth="333.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="12.0"
-                        mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="push"/>
-            </children>
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="12.0"
+                    mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="push"/>
         </Pane>
     </bottom>
 </BorderPane>

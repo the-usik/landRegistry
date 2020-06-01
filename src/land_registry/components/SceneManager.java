@@ -21,7 +21,7 @@ public class SceneManager {
         AUTH, MAIN
     }
 
-    private class SceneWrapper {
+    private static class SceneWrapper {
         private final Scene scene;
         private final Controller controller;
 

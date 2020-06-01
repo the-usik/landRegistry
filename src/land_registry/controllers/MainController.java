@@ -10,21 +10,23 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
 import land_registry.components.LandRegistryDatabase;
+import land_registry.components.ui.PopupUI;
 import land_registry.models.*;
 import org.bson.Document;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -85,6 +87,13 @@ public class MainController extends Controller implements Initializable {
         removeDataButton.setOnMouseClicked(this::onRemoveDataButtonClick);
     }
 
+    private void hideActiveTables() {
+        for (LandRegistryDatabase.Collection collection : LandRegistryDatabase.Collection.values()) {
+            if (tableViewMap.get(collection).isVisible())
+                tableViewMap.get(collection).setVisible(false);
+        }
+    }
+
     private void initTableViewMap() {
         tableViewMap.put(
                 LandRegistryDatabase.Collection.LANDS,
@@ -104,23 +113,16 @@ public class MainController extends Controller implements Initializable {
         );
     }
 
-    private void loadTableCollectionsOnPage() {
-        tableWrapperPane
-                .getChildren()
-                .setAll(tableViewMap.values());
-    }
-
     private void loadChoiceDatabaseItems() {
         choiceBox
                 .getItems()
                 .setAll(LandRegistryDatabase.Collection.values());
     }
 
-    private void hideActiveTables() {
-        for (LandRegistryDatabase.Collection collection : LandRegistryDatabase.Collection.values()) {
-            if (tableViewMap.get(collection).isVisible())
-                tableViewMap.get(collection).setVisible(false);
-        }
+    private void loadTableCollectionsOnPage() {
+        tableWrapperPane
+                .getChildren()
+                .setAll(tableViewMap.values());
     }
 
     private void setActiveCollection(LandRegistryDatabase.Collection collection) {
@@ -139,18 +141,12 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
-        Popup popup = new Popup();
-        popup.setWidth(400);
-        popup.setHeight(300);
+        PopupUI popupUI = new PopupUI(400, 450);
+        popupUI.setTitle("Adding Data");
+        popupUI.setParentStage(stage);
 
-        try {
-            Parent parent = FXMLLoader.load(mainContext.getClass().getResource("./pages/forms/add_form.fxml"));
-            popup.getContent().setAll(parent);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        popup.show(stage);
+        popupUI.getContentChildren().add(popupUI.createFormNode("test:", new Label("test")));
+        popupUI.show();
     }
 
     private void onEditDataButtonClick(MouseEvent mouseEvent) {
@@ -161,7 +157,7 @@ public class MainController extends Controller implements Initializable {
         System.out.println("removing data....");
     }
 
-    private <T extends CollectionModel> TableView<T> createDynamicTableForCollection(LandRegistryDatabase.Collection collectionName, Class<T> collectionModel) {
+    private <T extends CollectionModel> @NotNull TableView<T> createDynamicTableForCollection(LandRegistryDatabase.Collection collectionName, Class<T> collectionModel) {
         TableView<T> collectionTableView = new TableView<>();
         ObservableList<T> collectionData = FXCollections.observableArrayList();
 
