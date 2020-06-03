@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
@@ -17,7 +16,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import land_registry.components.LandRegistryDatabase;
 import land_registry.components.ui.PopupFormUI;
-import land_registry.components.ui.PopupWindowUI;
 import land_registry.models.*;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainController extends Controller implements Initializable {
@@ -142,7 +139,10 @@ public class MainController extends Controller implements Initializable {
         popupFormUI.addFormNode("lorem ipsum", new TextField("HI"));
         popupFormUI.addFormNode("lorem ipsum 1239735902347859034590", new TextField("HI"));
         popupFormUI.addFormNode("lorem ipsum 123842395", new TextField("SPASKLJLADSJGADSK"));
-        popupFormUI.getControlButtons().add(new Button("add"));
+        Button button = new Button("add");
+        button.setMinWidth(popupFormUI.getWindowWidth());
+
+        popupFormUI.getControlButtons().add(button);
         popupFormUI.show();
     }
 

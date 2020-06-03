@@ -1,6 +1,7 @@
 package land_registry.components.ui;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -63,15 +64,21 @@ public class PopupWindowUI {
         footerPanel = new StackPane();
 
         Label headerLabel = new Label(windowTitle);
-        headerLabel.setFont(Font.font("SF Mono", 16));
+        headerLabel.setId("headerTitle");
+        headerPanel.setId("headerPanel");
         headerPanel.setAlignment(Pos.CENTER);
         headerPanel.getChildren().add(headerLabel);
 
         contentPanel.setPrefHeight(windowHeight * .8);
+        contentPanel.setId("contentPanel");
+
         HBox buttonBar = new HBox();
         buttonBar.setSpacing(10);
+        buttonBar.setPadding(new Insets(0, 5, 0, 5));
         buttonBar.setFillHeight(true);
         buttonBar.setAlignment(Pos.CENTER);
+
+        footerPanel.setId("contentPanel");
         footerPanel.setAlignment(Pos.CENTER);
         footerPanel.getChildren().add(buttonBar);
 
@@ -85,7 +92,7 @@ public class PopupWindowUI {
     }
 
     private void initStyles() {
-        parentNode.setStyle("-fx-background-color: #fff; -fx-background-radius: 5;");
+        parentNode.getStylesheets().add(String.valueOf(getClass().getResource("../../styles/popup.css")));
     }
 
     public void hide() {

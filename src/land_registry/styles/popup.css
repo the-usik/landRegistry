@@ -1,0 +1,25 @@
+#parentNode {
+    -fx-background-color: #eee;
+    -fx-background-radius: 10;
+    -fx-effect: dropShadow(three-pass-box, rgba(0, 0, 0, .2), 5, 0, 0, 1);
+}
+
+#parentNode #headerPanel {
+    -fx-background-color: #fff;
+    -fx-background-radius: 10 10 0 0;
+}
+
+#parentNode #headerTitle {
+    -fx-text-fill: #000;
+    -fx-font-family: SF Mono;
+    -fx-font-size: 2em;
+}
+
+#parentNode .button {
+    -fx-background-color: #009933;
+    -fx-background-radius: 10;
+    -fx-padding: 5px 20px;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    -fx-font-family: "SF Mono";
+}
