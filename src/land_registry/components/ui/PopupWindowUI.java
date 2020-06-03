@@ -33,7 +33,7 @@ public class PopupWindowUI {
     private VBox parentNode;
     private Stage parentStage;
     private StackPane headerPanel;
-    private StackPane contentPanel;
+    protected StackPane contentPanel;
     private StackPane footerPanel;
 
     public PopupWindowUI() {
@@ -56,7 +56,6 @@ public class PopupWindowUI {
         parentNode = new VBox();
         parentNode.setFillWidth(true);
         parentNode.setId("parentNode");
-        parentNode.setStyle("-fx-background-color: #fff;");
         parentNode.setPrefSize(this.getWindowWidth(), this.getWindowHeight());
 
         headerPanel = new StackPane();
@@ -81,7 +80,12 @@ public class PopupWindowUI {
         VBox.setVgrow(footerPanel, Priority.ALWAYS);
         parentNode.getChildren().setAll(headerPanel, contentPanel, footerPanel);
         popup.getContent().setAll(parentNode);
+        initStyles();
         setInitialized(true);
+    }
+
+    private void initStyles() {
+        parentNode.setStyle("-fx-background-color: #fff; -fx-background-radius: 5;");
     }
 
     public void hide() {
@@ -112,15 +116,11 @@ public class PopupWindowUI {
         return parentStage;
     }
 
-    public @Nullable ObservableList<Node> getContent() {
-        if (!isInitialized()) return null;
-
+    public ObservableList<Node> getContent() {
         return contentPanel.getChildren();
     }
 
-    public @Nullable ObservableList<Node> getControlButtons() {
-        if (!isInitialized()) return null;
-
+    public ObservableList<Node> getControlButtons() {
         return ((HBox) footerPanel.getChildren().get(0)).getChildren();
     }
 

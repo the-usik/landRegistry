@@ -9,12 +9,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import land_registry.components.LandRegistryDatabase;
+import land_registry.components.ui.PopupFormUI;
 import land_registry.components.ui.PopupWindowUI;
 import land_registry.models.*;
 import org.bson.Document;
@@ -133,11 +135,15 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
-        PopupWindowUI popupWindowUI = new PopupWindowUI();
-        popupWindowUI.setParentStage(stage);
-        Objects.requireNonNull(popupWindowUI.getControlButtons()).addAll(new Button("save"), new Button("close"), new Button("edit"));
-        Objects.requireNonNull(popupWindowUI.getContent()).addAll(new Label("test"), new Label("test"));
-        popupWindowUI.show();
+        PopupFormUI popupFormUI = new PopupFormUI();
+        popupFormUI.setWindowTitle("Adding Data");
+        popupFormUI.setParentStage(stage);
+        popupFormUI.addFormNode("test", new TextField("sperma..."));
+        popupFormUI.addFormNode("lorem ipsum", new TextField("HI"));
+        popupFormUI.addFormNode("lorem ipsum 1239735902347859034590", new TextField("HI"));
+        popupFormUI.addFormNode("lorem ipsum 123842395", new TextField("SPASKLJLADSJGADSK"));
+        popupFormUI.getControlButtons().add(new Button("add"));
+        popupFormUI.show();
     }
 
     private void onEditDataButtonClick(MouseEvent mouseEvent) {
