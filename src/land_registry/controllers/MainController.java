@@ -8,31 +8,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
 import land_registry.components.LandRegistryDatabase;
-import land_registry.components.ui.PopupUI;
+import land_registry.components.ui.PopupWindowUI;
 import land_registry.models.*;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainController extends Controller implements Initializable {
@@ -141,12 +133,11 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
-        PopupUI popupUI = new PopupUI(400, 450);
-        popupUI.setTitle("Adding Data");
-        popupUI.setParentStage(stage);
-
-        popupUI.getContentChildren().add(popupUI.createFormNode("test:", new Label("test")));
-        popupUI.show();
+        PopupWindowUI popupWindowUI = new PopupWindowUI();
+        popupWindowUI.setParentStage(stage);
+        Objects.requireNonNull(popupWindowUI.getControlButtons()).addAll(new Button("save"), new Button("close"), new Button("edit"));
+        Objects.requireNonNull(popupWindowUI.getContent()).addAll(new Label("test"), new Label("test"));
+        popupWindowUI.show();
     }
 
     private void onEditDataButtonClick(MouseEvent mouseEvent) {
