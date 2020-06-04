@@ -8,11 +8,19 @@ import javafx.scene.layout.*;
 
 public class PopupFormUI extends PopupWindowUI {
     private final int FORM_NODE_PADDING = 30;
-    private final VBox formContainer;
+    private VBox formContainer;
 
     public PopupFormUI() {
         super();
+        initForm();
+    }
 
+    public PopupFormUI(int width, int height) {
+        super(width, height);
+        initForm();
+    }
+
+    private void initForm() {
         formContainer = new VBox();
         contentPanel.getChildren().add(formContainer);
     }

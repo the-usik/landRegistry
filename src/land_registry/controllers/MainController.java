@@ -20,6 +20,7 @@ import land_registry.models.*;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.PipedOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
@@ -132,7 +133,8 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
-        PopupFormUI popupFormUI = new PopupFormUI();
+        PopupFormUI popupFormUI = new PopupFormUI(350, 500);
+        
         popupFormUI.setWindowTitle("Adding Data");
         popupFormUI.setParentStage(stage);
         popupFormUI.addFormNode("test", new TextField("sperma..."));

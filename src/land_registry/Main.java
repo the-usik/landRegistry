@@ -23,7 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        sceneManager.switchScene(SceneManager.SceneNames.MAIN);
+        sceneManager.switchScene(SceneManager.SceneNames.AUTH);
     }
 
     public Stage getPrimaryStage() {
