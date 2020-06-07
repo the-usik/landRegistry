@@ -1,5 +1,6 @@
 package land_registry.components.ui.utils;
 
+import javafx.scene.Node;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,10 @@ public class FormNodeGroup {
 
     public ArrayList<FormNode> getFormNodes() {
         return formNodes;
+    }
+
+    public void append(String name, Node node) {
+        formNodes.add(new FormNode(name, node));
     }
 
     public static FormNodeGroup createFormNodeGroup(ArrayList<FormNode> formNodes) {

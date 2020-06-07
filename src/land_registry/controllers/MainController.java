@@ -20,7 +20,6 @@ import land_registry.components.database.models.CollectionModel;
 import land_registry.components.ui.PopupFormUI;
 import land_registry.components.database.models.*;
 
-import land_registry.components.ui.utils.FormNode;
 import land_registry.components.ui.utils.FormNodeGroup;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +55,7 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private final HashMap<Database.Collection, TableView<? extends CollectionModel>> tableViewMap = new HashMap<>();
 
-    private Database.Collection activeTableCollection;
+    private Database.Collection selectedTableCollection;
 
     @Override
     public void onMainContextInit() {
@@ -70,7 +69,7 @@ public class MainController extends Controller implements Initializable {
         initTableViewMap();
         loadTableCollectionsOnPage();
         loadChoiceDatabaseItems();
-        setActiveCollection(Database.Collection.LANDS);
+        setSelectedCollection(Database.Collection.LANDS);
     }
 
     @Override
@@ -122,7 +121,7 @@ public class MainController extends Controller implements Initializable {
 
     private void onChoiceBoxAction(ActionEvent actionEvent) {
         hideActiveTables();
-        setActiveCollection(choiceBox.getValue());
+        setSelectedCollection(choiceBox.getValue());
     }
 
     private void onInputDataSearchField(KeyEvent keyEvent) {
@@ -130,18 +129,13 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
-        // TODO: 1. get current model; 2. create form node group; 3. show popup with current form node group;
-        
-        PopupFormUI popupFormUI = new PopupFormUI(350, 500);
-        FormNodeGroup formNodeGroup = new FormNodeGroup();
-        formNodeGroup.getFormNodes().add(new FormNode("test", new TextField("sperma")));
+        FormNodeGroup formNodeGroup = CollectionModel.createFormNodeGroup();
 
+        PopupFormUI popupFormUI = new PopupFormUI(350, 500);
+        popupFormUI.setFormNodeGroup(formNodeGroup);
         popupFormUI.setWindowTitle("Adding Data");
         popupFormUI.setParentStage(stage);
-        popupFormUI.addFormNode("test", new TextField("sperma..."));
-        popupFormUI.addFormNode("lorem ipsum", new TextField("HI"));
-        popupFormUI.addFormNode("lorem ipsum 1239735902347859034590", new TextField("HI"));
-        popupFormUI.addFormNode("lorem ipsum 123842395", new TextField("SPASKLJLADSJGADSK"));
+
         Button button = new Button("add");
         button.setMinWidth(popupFormUI.getWindowWidth());
 
@@ -150,11 +144,19 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onEditDataButtonClick(MouseEvent mouseEvent) {
-        System.out.println("editing data...");
+        CollectionModel collectionModel = getSelectedTableView().getSelectionModel().getSelectedItem();
+        if (collectionModel == null) return;
+
+        FormNodeGroup formNodeGroup = collectionModel.getFormNodeGroup();
+        PopupFormUI popupFormUI = new PopupFormUI(300, 500);
+        popupFormUI.setWindowTitle("Editing Data");
+        popupFormUI.setFormNodeGroup(formNodeGroup);
+        popupFormUI.getControlButtons().add(new Button("edit"));
+        popupFormUI.show(stage);
     }
 
     private void onRemoveDataButtonClick(MouseEvent mouseEvent) {
-        System.out.println(getActiveTableView().getSelectionModel().getSelectedItem().get_id());
+        System.out.println(getSelectedTableView().getSelectionModel().getSelectedItem().get_id());
     }
 
     private <T extends CollectionModel> @NotNull TableView<T> createDynamicTableForCollection(Database.Collection collectionName, Class<T> collectionModel) {
@@ -188,17 +190,17 @@ public class MainController extends Controller implements Initializable {
         return collectionTableView;
     }
 
-    public Database.Collection getActiveTableCollection() {
-        return activeTableCollection;
+    public Database.Collection getSelectedTableCollection() {
+        return selectedTableCollection;
     }
 
-    public TableView<? extends CollectionModel> getActiveTableView() {
-        return tableViewMap.get(getActiveTableCollection());
+    public TableView<? extends CollectionModel> getSelectedTableView() {
+        return tableViewMap.get(getSelectedTableCollection());
     }
 
-    private void setActiveCollection(Database.Collection collection) {
-        activeTableCollection = collection;
+    private void setSelectedCollection(Database.Collection collection) {
+        selectedTableCollection = collection;
         tableViewMap.get(collection).setVisible(true);
-        choiceBox.setValue(activeTableCollection);
+        choiceBox.setValue(selectedTableCollection);
     }
 }

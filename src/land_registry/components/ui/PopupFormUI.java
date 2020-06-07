@@ -5,8 +5,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import land_registry.components.ui.utils.FormNode;
 import land_registry.components.ui.utils.FormNodeGroup;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class PopupFormUI extends PopupWindowUI {
     private final int FORM_NODE_PADDING = 30;
@@ -28,15 +31,9 @@ public class PopupFormUI extends PopupWindowUI {
         contentPanel.getChildren().add(formContainer);
     }
 
-    public void addFormNode(String name, Node node) {
-        this.addFormNode(new FormNode(name, node));
-    }
+    private void renderFormNode(FormNode formNode) {
+        if (formNode == null) return;
 
-    public void addFormNode(FormNode formNode) {
-        formNodeGroup.getFormNodes().add(formNode);
-    }
-
-    public void renderFormNode(FormNode formNode) {
         HBox formNodeContainer = new HBox();
         StackPane keyWrapperPanel = new StackPane();
         StackPane nodeWrapperPanel = new StackPane();
@@ -58,13 +55,34 @@ public class PopupFormUI extends PopupWindowUI {
         formContainer.getChildren().add(formNodeContainer);
     }
 
-    public void renderFormNodes() {
+    private void renderFormNodes() {
         for (FormNode formNode : formNodeGroup.getFormNodes()) {
             renderFormNode(formNode);
         }
     }
 
-    public static PopupFormUI createPopupForm(int width, int height) {
+    public void setFormNodeGroup(FormNodeGroup formNodeGroup) {
+        this.formNodeGroup = formNodeGroup;
+    }
+
+    public FormNodeGroup getFormNodeGroup() {
+        return formNodeGroup;
+    }
+
+    @Override
+    public void show() {
+        this.renderFormNodes();
+        super.show();
+    }
+
+    @Override
+    public void show(Stage stage) {
+        this.renderFormNodes();
+        super.show(stage);
+    }
+
+    @Contract("_, _ -> new")
+    public static @NotNull PopupFormUI createPopupForm(int width, int height) {
         return new PopupFormUI(width, height);
     }
 }
