@@ -146,7 +146,7 @@ public class MainController extends Controller implements Initializable {
     private void onEditDataButtonClick(MouseEvent mouseEvent) {
         CollectionModel collectionModel = getSelectedTableView().getSelectionModel().getSelectedItem();
         if (collectionModel == null) return;
-
+        //test
         FormNodeGroup formNodeGroup = collectionModel.getFormNodeGroup();
         PopupFormUI popupFormUI = new PopupFormUI(300, 500);
         popupFormUI.setWindowTitle("Editing Data");
