@@ -14,13 +14,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import land_registry.components.LandRegistryDatabase;
+
+import land_registry.components.database.Database;
+import land_registry.components.database.models.CollectionModel;
 import land_registry.components.ui.PopupFormUI;
-import land_registry.models.*;
+import land_registry.components.database.models.*;
+
+import land_registry.components.ui.utils.FormNode;
+import land_registry.components.ui.utils.FormNodeGroup;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.PipedOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
@@ -47,13 +51,12 @@ public class MainController extends Controller implements Initializable {
     private ProgressBar progressBar;
 
     @FXML
-    private ChoiceBox<LandRegistryDatabase.Collection> choiceBox;
+    private ChoiceBox<Database.Collection> choiceBox;
 
     @FXML
-    private final HashMap<LandRegistryDatabase.Collection, TableView<? extends CollectionModel>> tableViewMap = new HashMap<>();
+    private final HashMap<Database.Collection, TableView<? extends CollectionModel>> tableViewMap = new HashMap<>();
 
-    private LandRegistryDatabase database;
-    private LandRegistryDatabase.Collection activeTableCollection;
+    private Database.Collection activeTableCollection;
 
     @Override
     public void onMainContextInit() {
@@ -67,7 +70,7 @@ public class MainController extends Controller implements Initializable {
         initTableViewMap();
         loadTableCollectionsOnPage();
         loadChoiceDatabaseItems();
-        setActiveCollection(LandRegistryDatabase.Collection.LANDS);
+        setActiveCollection(Database.Collection.LANDS);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void hideActiveTables() {
-        for (LandRegistryDatabase.Collection collection : LandRegistryDatabase.Collection.values()) {
+        for (Database.Collection collection : Database.Collection.values()) {
             if (tableViewMap.get(collection).isVisible())
                 tableViewMap.get(collection).setVisible(false);
         }
@@ -88,39 +91,33 @@ public class MainController extends Controller implements Initializable {
 
     private void initTableViewMap() {
         tableViewMap.put(
-                LandRegistryDatabase.Collection.LANDS,
-                createDynamicTableForCollection(LandRegistryDatabase.Collection.LANDS, LandsModel.class)
+                Database.Collection.LANDS,
+                createDynamicTableForCollection(Database.Collection.LANDS, LandsModel.class)
         );
         tableViewMap.put(
-                LandRegistryDatabase.Collection.LAND_OWNERS,
-                createDynamicTableForCollection(LandRegistryDatabase.Collection.LAND_OWNERS, LandOwnersModel.class)
+                Database.Collection.LAND_OWNERS,
+                createDynamicTableForCollection(Database.Collection.LAND_OWNERS, LandOwnersModel.class)
         );
         tableViewMap.put(
-                LandRegistryDatabase.Collection.REGIONS,
-                createDynamicTableForCollection(LandRegistryDatabase.Collection.REGIONS, RegionsModel.class)
+                Database.Collection.REGIONS,
+                createDynamicTableForCollection(Database.Collection.REGIONS, RegionsModel.class)
         );
         tableViewMap.put(
-                LandRegistryDatabase.Collection.USERS,
-                createDynamicTableForCollection(LandRegistryDatabase.Collection.USERS, UsersModel.class)
+                Database.Collection.USERS,
+                createDynamicTableForCollection(Database.Collection.USERS, UsersModel.class)
         );
     }
 
     private void loadChoiceDatabaseItems() {
         choiceBox
                 .getItems()
-                .setAll(LandRegistryDatabase.Collection.values());
+                .setAll(Database.Collection.values());
     }
 
     private void loadTableCollectionsOnPage() {
         tableWrapperPane
                 .getChildren()
                 .setAll(tableViewMap.values());
-    }
-
-    private void setActiveCollection(LandRegistryDatabase.Collection collection) {
-        activeTableCollection = collection;
-        tableViewMap.get(collection).setVisible(true);
-        choiceBox.setValue(activeTableCollection);
     }
 
     private void onChoiceBoxAction(ActionEvent actionEvent) {
@@ -133,8 +130,12 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onAddDataButtonClick(MouseEvent mouseEvent) {
-        PopupFormUI popupFormUI = new PopupFormUI(350, 500);
+        // TODO: 1. get current model; 2. create form node group; 3. show popup with current form node group;
         
+        PopupFormUI popupFormUI = new PopupFormUI(350, 500);
+        FormNodeGroup formNodeGroup = new FormNodeGroup();
+        formNodeGroup.getFormNodes().add(new FormNode("test", new TextField("sperma")));
+
         popupFormUI.setWindowTitle("Adding Data");
         popupFormUI.setParentStage(stage);
         popupFormUI.addFormNode("test", new TextField("sperma..."));
@@ -153,10 +154,10 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void onRemoveDataButtonClick(MouseEvent mouseEvent) {
-        System.out.println("removing data....");
+        System.out.println(getActiveTableView().getSelectionModel().getSelectedItem().get_id());
     }
 
-    private <T extends CollectionModel> @NotNull TableView<T> createDynamicTableForCollection(LandRegistryDatabase.Collection collectionName, Class<T> collectionModel) {
+    private <T extends CollectionModel> @NotNull TableView<T> createDynamicTableForCollection(Database.Collection collectionName, Class<T> collectionModel) {
         TableView<T> collectionTableView = new TableView<>();
         ObservableList<T> collectionData = FXCollections.observableArrayList();
 
@@ -185,5 +186,19 @@ public class MainController extends Controller implements Initializable {
 
         collectionTableView.setItems(collectionData);
         return collectionTableView;
+    }
+
+    public Database.Collection getActiveTableCollection() {
+        return activeTableCollection;
+    }
+
+    public TableView<? extends CollectionModel> getActiveTableView() {
+        return tableViewMap.get(getActiveTableCollection());
+    }
+
+    private void setActiveCollection(Database.Collection collection) {
+        activeTableCollection = collection;
+        tableViewMap.get(collection).setVisible(true);
+        choiceBox.setValue(activeTableCollection);
     }
 }

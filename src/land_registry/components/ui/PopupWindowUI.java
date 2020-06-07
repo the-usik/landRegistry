@@ -4,8 +4,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -14,16 +12,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import javafx.scene.text.Font;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Function;
-
 public class PopupWindowUI {
     // default values
     // header, main, footer
-    private static final int DEFAULT_WIDTH = 400;
-    private static final int DEFAULT_HEIGHT = 500;
+    protected static final int DEFAULT_WIDTH = 400;
+    protected static final int DEFAULT_HEIGHT = 500;
     private static final String DEFAULT_TITLE = "unknown title";
 
     private boolean initialized = false;

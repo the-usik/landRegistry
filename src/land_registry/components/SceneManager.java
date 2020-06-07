@@ -79,12 +79,11 @@ public class SceneManager {
     public void switchScene(SceneNames sceneName) {
         if (currentStage != null)
             currentStage.hide();
+        else currentStage = new Stage();
 
         SceneWrapper sceneWrapper = getSceneWrapper(sceneName);
         Scene scene = sceneWrapper.getScene();
         Controller controller = sceneWrapper.getController();
-
-        currentStage = new Stage();
         controller.setStage(currentStage);
         currentStage.setResizable(false);
         currentStage.setTitle(DEFAULT_WINDOW_TITLE);

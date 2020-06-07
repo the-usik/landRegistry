@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import land_registry.components.LandRegistryDatabase;
+import land_registry.components.database.Database;
 import land_registry.components.SceneManager;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +19,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,8 +35,6 @@ public class AuthController extends Controller implements Initializable {
 
     @FXML
     private Label authMessageLabel;
-
-    private final String HASH_GENERATION_ALGORITHM = "SHA-256";
 
     @Override
     public void onShowing() {
@@ -74,7 +71,7 @@ public class AuthController extends Controller implements Initializable {
     }
 
     private boolean isValidAccountData(String userLogin, String userPassword) {
-        MongoCollection<Document> usersCollection = mainContext.getDatabase().getCollection(LandRegistryDatabase.Collection.USERS);
+        MongoCollection<Document> usersCollection = mainContext.getDatabase().getCollection(Database.Collection.USERS);
         Document authDocument = new Document();
         authDocument.append("username", userLogin);
         authDocument.append("password", generateHash(userPassword));
@@ -85,6 +82,7 @@ public class AuthController extends Controller implements Initializable {
 
     private @Nullable String generateHash(@NotNull String inputString) {
         try {
+            String HASH_GENERATION_ALGORITHM = "SHA-256";
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_GENERATION_ALGORITHM);
             byte[] encodedBytes = messageDigest.digest(inputString.getBytes(StandardCharsets.UTF_8));
 

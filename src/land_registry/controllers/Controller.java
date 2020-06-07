@@ -2,12 +2,12 @@ package land_registry.controllers;
 
 import javafx.stage.Stage;
 import land_registry.Main;
-import land_registry.components.LandRegistryDatabase;
+import land_registry.components.database.Database;
 
 public abstract class Controller {
     protected Stage stage;
     protected Main mainContext;
-    protected LandRegistryDatabase database;
+    protected Database database;
 
     public abstract void onShowing();
 
@@ -21,7 +21,7 @@ public abstract class Controller {
         return mainContext;
     }
 
-    public LandRegistryDatabase getDatabase() {
+    public Database getDatabase() {
         return database;
     }
 
