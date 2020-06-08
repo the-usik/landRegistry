@@ -53,16 +53,19 @@ public class LandOwnersModel extends CollectionModel {
         FormNodeGroup formNodeGroup = super.getFormNodeGroup();
 
         TextField firstNameField = new TextField();
+        firstNameField.setId("firstName");
         firstNameField.setText(getFirstName());
         firstNameField.setPromptText("Enter a first name...");
 
         TextField lastNameField = new TextField();
-        firstNameField.setText(getLastName());
-        firstNameField.setPromptText("Enter a last name...");
+        lastNameField.setId("lastName");
+        lastNameField.setText(getLastName());
+        lastNameField.setPromptText("Enter a last name...");
 
         TextField middleNameField = new TextField();
-        firstNameField.setText(getMiddleName());
-        firstNameField.setPromptText("Enter a middle name...");
+        middleNameField.setId("middleName");
+        middleNameField.setText(getMiddleName());
+        middleNameField.setPromptText("Enter a middle name...");
 
         formNodeGroup.append("First name", firstNameField);
         formNodeGroup.append("Last name", lastNameField);

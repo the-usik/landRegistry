@@ -2,6 +2,8 @@ package land_registry.components.database.models;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.TextField;
+import land_registry.components.ui.utils.FormNodeGroup;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
@@ -40,5 +42,25 @@ public class RegionsModel extends CollectionModel {
 
     public String getAddress() {
         return address.get();
+    }
+
+    @Override
+    public FormNodeGroup getFormNodeGroup() {
+        FormNodeGroup formNodeGroup = super.getFormNodeGroup();
+
+        TextField addressTextField = new TextField();
+        addressTextField.setId("address");
+        addressTextField.setText(getAddress());
+        addressTextField.setPromptText("Enter the address...");
+
+        TextField totalAreaSizeField = new TextField();
+        totalAreaSizeField.setId("totalAreaSize");
+        totalAreaSizeField.setText(Double.toString(getTotalAreaSize()));
+        totalAreaSizeField.setPromptText("Enter the total area size...");
+
+        formNodeGroup.append("Address", addressTextField);
+        formNodeGroup.append("Total area size", totalAreaSizeField);
+
+        return formNodeGroup;
     }
 }

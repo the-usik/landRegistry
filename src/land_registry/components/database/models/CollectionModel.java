@@ -19,6 +19,7 @@ public class CollectionModel {
         FormNodeGroup formNodeGroup = new FormNodeGroup();
 
         TextField idTextField = new TextField();
+        idTextField.setId("_id");
         idTextField.setText(get_id().toString());
         idTextField.setPromptText("Collection identify...");
         idTextField.setDisable(true);

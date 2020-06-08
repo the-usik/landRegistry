@@ -66,17 +66,26 @@ public class LandsModel extends CollectionModel {
         ChoiceBox<LandOwnersModel> ownerChoiceBox = new ChoiceBox<>();
 
         TextField priceField = new TextField();
+        priceField.setId("price");
         priceField.setText(Double.toString(getPrice()));
         priceField.setPromptText("Enter a price of land...");
 
+        TextField plottageField = new TextField();
+        plottageField.setId("plottage");
+        plottageField.setText(Double.toString(getPlottage()));
+        plottageField.setPromptText("Enter a plottage of land...");
+
         ToggleButton forConstructionToggleButton = new ToggleButton();
+        forConstructionToggleButton.setId("forConstruction");
+        forConstructionToggleButton.setText(getForConstruction() ? "true" : "false");
         forConstructionToggleButton.setSelected(getForConstruction());
 
         formNodeGroup.append("regionId", regionChoiceBox);
         formNodeGroup.append("ownerId", ownerChoiceBox);
         formNodeGroup.append("price", priceField);
-        formNodeGroup.append("plottage", new TextField());
+        formNodeGroup.append("plottage", plottageField);
         formNodeGroup.append("For construction", forConstructionToggleButton);
+
         return formNodeGroup;
     }
 }

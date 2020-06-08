@@ -45,10 +45,12 @@ public class PopupFormUI extends PopupWindowUI {
         keyWrapperPanel.setPrefWidth(0);
         keyWrapperPanel.setAlignment(Pos.CENTER_LEFT);
         keyWrapperPanel.getChildren().add(new Label(formNode.getName()));
+        keyWrapperPanel.setPrefWidth((double) getWindowWidth() / 2);
         keyWrapperPanel.setPadding(new Insets(0, FORM_NODE_PADDING, 0, FORM_NODE_PADDING));
 
         nodeWrapperPanel.setAlignment(Pos.CENTER_LEFT);
         nodeWrapperPanel.getChildren().add(formNode.getNode());
+        nodeWrapperPanel.setPrefWidth((double) getWindowWidth() / 2);
         nodeWrapperPanel.setPadding(new Insets(0, FORM_NODE_PADDING, 0, FORM_NODE_PADDING));
 
         formNodeContainer.getChildren().addAll(keyWrapperPanel, nodeWrapperPanel);
