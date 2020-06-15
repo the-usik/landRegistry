@@ -9,17 +9,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+import javafx.scene.text.Text;
 import land_registry.components.database.Database;
 import land_registry.components.database.models.CollectionModel;
 import land_registry.components.ui.PopupFormUI;
 import land_registry.components.database.models.*;
 
+import land_registry.components.ui.utils.FormNode;
 import land_registry.components.ui.utils.FormNodeGroup;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
@@ -148,10 +151,36 @@ public class MainController extends Controller implements Initializable {
         if (collectionModel == null) return;
 
         FormNodeGroup formNodeGroup = collectionModel.getFormNodeGroup();
+
+        Button editButton = new Button();
+        editButton.setText("Edit");
+        editButton.setMinWidth(350);
+        editButton.setOnMouseClicked(editMouseEvent -> {
+            Document document = new Document();
+            for (FormNode formNode : formNodeGroup.getFormNodes()) {
+                String valueNode = null;
+
+                if (formNode.getNode() instanceof TextField) {
+                    valueNode = ((TextField) formNode.getNode()).getText();
+                }
+
+                if (formNode.getNode() instanceof ChoiceBox) {
+                    valueNode = (String) ((ChoiceBox) formNode.getNode()).getValue();
+                }
+
+                if (formNode.getNode() instanceof ToggleButton) {
+                    valueNode = Boolean.toString(((ToggleButton) formNode.getNode()).isSelected());
+                }
+
+                document.append(formNode.getNode().getId(), valueNode);
+            }
+            System.out.println("get data for editing:" + document.toJson());
+        });
+
         PopupFormUI popupFormUI = new PopupFormUI(350, 500);
         popupFormUI.setWindowTitle("Editing Data");
         popupFormUI.setFormNodeGroup(formNodeGroup);
-        popupFormUI.getControlButtons().add(new Button("edit"));
+        popupFormUI.getControlButtons().add(editButton);
         popupFormUI.show(stage);
     }
 

@@ -24,7 +24,7 @@ public class CollectionModel {
         idTextField.setPromptText("Collection identify...");
         idTextField.setDisable(true);
 
-        formNodeGroup.append("_id", idTextField);
+        formNodeGroup.append("Identify:", idTextField);
 
         return formNodeGroup;
     }

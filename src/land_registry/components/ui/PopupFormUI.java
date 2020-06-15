@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public class PopupFormUI extends PopupWindowUI {
-    private final int FORM_NODE_PADDING = 30;
+    private static final int FORM_NODE_PADDING = 30;
     private VBox formContainer;
     private FormNodeGroup formNodeGroup;
 

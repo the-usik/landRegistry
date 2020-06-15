@@ -57,7 +57,7 @@ public class RegionsModel extends CollectionModel {
         totalAreaSizeField.setId("totalAreaSize");
         totalAreaSizeField.setText(Double.toString(getTotalAreaSize()));
         totalAreaSizeField.setPromptText("Enter the total area size...");
-
+        
         formNodeGroup.append("Address", addressTextField);
         formNodeGroup.append("Total area size", totalAreaSizeField);
 

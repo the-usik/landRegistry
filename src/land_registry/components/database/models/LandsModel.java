@@ -63,7 +63,10 @@ public class LandsModel extends CollectionModel {
         FormNodeGroup formNodeGroup = super.getFormNodeGroup();
 
         ChoiceBox<RegionsModel> regionChoiceBox = new ChoiceBox<>();
+        regionChoiceBox.setId("regionId");
+
         ChoiceBox<LandOwnersModel> ownerChoiceBox = new ChoiceBox<>();
+        ownerChoiceBox.setId("ownerId");
 
         TextField priceField = new TextField();
         priceField.setId("price");
@@ -73,17 +76,17 @@ public class LandsModel extends CollectionModel {
         TextField plottageField = new TextField();
         plottageField.setId("plottage");
         plottageField.setText(Double.toString(getPlottage()));
-        plottageField.setPromptText("Enter a plottage of land...");
+        plottageField.setPromptText("Enter a area size of land...");
 
         ToggleButton forConstructionToggleButton = new ToggleButton();
         forConstructionToggleButton.setId("forConstruction");
         forConstructionToggleButton.setText(getForConstruction() ? "true" : "false");
         forConstructionToggleButton.setSelected(getForConstruction());
 
-        formNodeGroup.append("regionId", regionChoiceBox);
-        formNodeGroup.append("ownerId", ownerChoiceBox);
-        formNodeGroup.append("price", priceField);
-        formNodeGroup.append("plottage", plottageField);
+        formNodeGroup.append("Region", regionChoiceBox);
+        formNodeGroup.append("Owner", ownerChoiceBox);
+        formNodeGroup.append("Price", priceField);
+        formNodeGroup.append("Area size", plottageField);
         formNodeGroup.append("For construction", forConstructionToggleButton);
 
         return formNodeGroup;
