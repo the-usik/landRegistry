@@ -2,7 +2,7 @@ package land_registry.controllers;
 
 import javafx.stage.Stage;
 import land_registry.Main;
-import land_registry.components.database.Database;
+import land_registry.database.Database;
 
 public abstract class Controller {
     protected Stage stage;

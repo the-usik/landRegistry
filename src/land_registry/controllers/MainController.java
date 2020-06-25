@@ -2,46 +2,36 @@ package land_registry.controllers;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-import javafx.scene.text.Text;
-import land_registry.components.database.Database;
-import land_registry.components.database.models.CollectionModel;
-import land_registry.components.ui.PopupFormUI;
-import land_registry.components.database.models.*;
-
-import land_registry.components.ui.utils.FormNode;
-import land_registry.components.ui.utils.FormNodeGroup;
+import land_registry.database.Database;
+import land_registry.database.models.CollectionModel;
+import land_registry.database.models.*;
 import org.bson.Document;
-import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("unchecked")
 public class MainController extends Controller implements Initializable {
     @FXML
-    private Button addDataButton;
+    private Button addButton;
 
     @FXML
-    private Button removeDataButton;
+    private Button deleteButton;
 
     @FXML
-    private Button editDataButton;
+    private Button editButton;
 
     @FXML
     private TextField searchField;
@@ -55,181 +45,186 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private ChoiceBox<Database.Collection> choiceBox;
 
-    @FXML
-    private final HashMap<Database.Collection, TableView<? extends CollectionModel>> tableViewMap = new HashMap<>();
+    private TableView<UsersModel> usersTable;
+    private TableView<LandsModel> landsTable;
+    private TableView<RegionsModel> regionsTable;
+    private TableView<LandOwnersModel> ownersTable;
 
-    private Database.Collection selectedTableCollection;
-
-    @Override
-    public void onMainContextInit() {
-        System.out.println("main context inited!");
-    }
+    private Database.Collection selectedCollection;
 
     @Override
     public void onShowing() {
         database = mainContext.getDatabase();
-
-        initTableViewMap();
-        loadTableCollectionsOnPage();
-        loadChoiceDatabaseItems();
-        setSelectedCollection(Database.Collection.LANDS);
+        initTables();
+        fillTables();
+        initChoiceBox();
+        initEventHandlers();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        choiceBox.setOnAction(this::onChoiceBoxAction);
-        searchField.setOnKeyTyped(this::onInputDataSearchField);
-        addDataButton.setOnMouseClicked(this::onAddDataButtonClick);
-        editDataButton.setOnMouseClicked(this::onEditDataButtonClick);
-        removeDataButton.setOnMouseClicked(this::onRemoveDataButtonClick);
     }
 
-    private void hideActiveTables() {
-        for (Database.Collection collection : Database.Collection.values()) {
-            if (tableViewMap.get(collection).isVisible())
-                tableViewMap.get(collection).setVisible(false);
-        }
+    @Override
+    public void onMainContextInit() {
+
     }
 
-    private void initTableViewMap() {
-        tableViewMap.put(
-                Database.Collection.LANDS,
-                createDynamicTableForCollection(Database.Collection.LANDS, LandsModel.class)
-        );
-        tableViewMap.put(
-                Database.Collection.LAND_OWNERS,
-                createDynamicTableForCollection(Database.Collection.LAND_OWNERS, LandOwnersModel.class)
-        );
-        tableViewMap.put(
-                Database.Collection.REGIONS,
-                createDynamicTableForCollection(Database.Collection.REGIONS, RegionsModel.class)
-        );
-        tableViewMap.put(
-                Database.Collection.USERS,
-                createDynamicTableForCollection(Database.Collection.USERS, UsersModel.class)
-        );
-    }
+    private void initTables() {
+        usersTable = new TableView<>();
+        landsTable = new TableView<>();
+        regionsTable = new TableView<>();
+        ownersTable = new TableView<>();
 
-    private void loadChoiceDatabaseItems() {
-        choiceBox
-                .getItems()
-                .setAll(Database.Collection.values());
-    }
+        ObservableList<UsersModel> usersObservableList = FXCollections.observableArrayList();
+        ObservableList<LandsModel> landsObservableList = FXCollections.observableArrayList();
+        ObservableList<RegionsModel> regionsObservableList = FXCollections.observableArrayList();
+        ObservableList<LandOwnersModel> ownersObservableList = FXCollections.observableArrayList();
 
-    private void loadTableCollectionsOnPage() {
+        database
+                .getCollection(Database.Collection.USERS)
+                .find()
+                .first()
+                .forEach((key, value) -> {
+                    TableColumn<UsersModel, String> column = new TableColumn<>(key);
+                    column.setCellValueFactory(new PropertyValueFactory<>(key));
+                    usersTable.getColumns().add(column);
+                });
+
+
+        database
+                .getCollection(Database.Collection.LANDS)
+                .find()
+                .first()
+                .forEach((key, value) -> {
+                    TableColumn<LandsModel, String> column = new TableColumn<>(key);
+                    column.setCellValueFactory(new PropertyValueFactory<>(key));
+                    landsTable.getColumns().add(column);
+                });
+
+
+        database
+                .getCollection(Database.Collection.REGIONS)
+                .find()
+                .first()
+                .forEach((key, value) -> {
+                    TableColumn<RegionsModel, String> column = new TableColumn<>(key);
+                    column.setCellValueFactory(new PropertyValueFactory<>(key));
+                    regionsTable.getColumns().add(column);
+                });
+
+
+        database
+                .getCollection(Database.Collection.LAND_OWNERS)
+                .find()
+                .first()
+                .forEach((key, value) -> {
+                    TableColumn<LandOwnersModel, String> column = new TableColumn<>(key);
+                    column.setCellValueFactory(new PropertyValueFactory<>(key));
+                    ownersTable.getColumns().add(column);
+                });
+
+        usersTable.setItems(usersObservableList);
+        landsTable.setItems(landsObservableList);
+        ownersTable.setItems(ownersObservableList);
+        regionsTable.setItems(regionsObservableList);
+
         tableWrapperPane
                 .getChildren()
-                .setAll(tableViewMap.values());
+                .addAll(usersTable, landsTable, regionsTable, ownersTable);
     }
 
-    private void onChoiceBoxAction(ActionEvent actionEvent) {
-        hideActiveTables();
-        setSelectedCollection(choiceBox.getValue());
+    private void initChoiceBox() {
+        choiceBox
+                .getItems()
+                .addAll(Database.Collection.values());
     }
 
-    private void onInputDataSearchField(KeyEvent keyEvent) {
-        System.out.println("Searching data...");
+    private void initEventHandlers() {
+        choiceBox.setOnAction(this::onChoiceBoxAction);
+        searchField.setOnKeyTyped(this::onInputSearchField);
+        addButton.setOnMouseClicked(this::onAddButtonClick);
+        editButton.setOnMouseClicked(this::onEditButtonClick);
+        deleteButton.setOnMouseClicked(this::onDeleteButtonClick);
+
     }
 
-    private void onAddDataButtonClick(MouseEvent mouseEvent) {
-        FormNodeGroup formNodeGroup = CollectionModel.createFormNodeGroup();
-
-        PopupFormUI popupFormUI = new PopupFormUI(350, 500);
-        popupFormUI.setFormNodeGroup(formNodeGroup);
-        popupFormUI.setWindowTitle("Adding Data");
-        popupFormUI.setParentStage(stage);
-
-        Button button = new Button("add");
-        button.setMinWidth(popupFormUI.getWindowWidth());
-
-        popupFormUI.getControlButtons().add(button);
-        popupFormUI.show();
-    }
-
-    private void onEditDataButtonClick(MouseEvent mouseEvent) {
-        CollectionModel collectionModel = getSelectedTableView().getSelectionModel().getSelectedItem();
-        if (collectionModel == null) return;
-
-        FormNodeGroup formNodeGroup = collectionModel.getFormNodeGroup();
-
-        Button editButton = new Button();
-        editButton.setText("Edit");
-        editButton.setMinWidth(350);
-        editButton.setOnMouseClicked(editMouseEvent -> {
-            Document document = new Document();
-            for (FormNode formNode : formNodeGroup.getFormNodes()) {
-                String valueNode = null;
-
-                if (formNode.getNode() instanceof TextField) {
-                    valueNode = ((TextField) formNode.getNode()).getText();
-                }
-
-                if (formNode.getNode() instanceof ChoiceBox) {
-                    valueNode = (String) ((ChoiceBox) formNode.getNode()).getValue();
-                }
-
-                if (formNode.getNode() instanceof ToggleButton) {
-                    valueNode = Boolean.toString(((ToggleButton) formNode.getNode()).isSelected());
-                }
-
-                document.append(formNode.getNode().getId(), valueNode);
-            }
-            System.out.println("get data for editing:" + document.toJson());
-        });
-
-        PopupFormUI popupFormUI = new PopupFormUI(350, 500);
-        popupFormUI.setWindowTitle("Editing Data");
-        popupFormUI.setFormNodeGroup(formNodeGroup);
-        popupFormUI.getControlButtons().add(editButton);
-        popupFormUI.show(stage);
-    }
-
-    private void onRemoveDataButtonClick(MouseEvent mouseEvent) {
-        System.out.println(getSelectedTableView().getSelectionModel().getSelectedItem().get_id());
-    }
-
-    private <T extends CollectionModel> @NotNull TableView<T> createDynamicTableForCollection(Database.Collection collectionName, Class<T> collectionModel) {
-        TableView<T> collectionTableView = new TableView<>();
-        ObservableList<T> collectionData = FXCollections.observableArrayList();
-
-        MongoCollection<Document> collection = database.getCollection(collectionName);
-        FindIterable<Document> findIterable = collection.find();
-        MongoCursor<Document> iterator = findIterable.iterator();
-
-        for (Map.Entry<String, Object> entry : findIterable.first().entrySet()) {
-            TableColumn<T, String> column = new TableColumn<>(entry.getKey());
-            column.setCellValueFactory(new PropertyValueFactory<>(entry.getKey()));
-            collectionTableView.getColumns().add(column);
+    private void fillTables() {
+        for (Document document : database.getCollection(Database.Collection.USERS).find()) {
+            usersTable
+                    .getItems()
+                    .add(new UsersModel(document));
         }
 
-        while (iterator.hasNext()) {
-            Document document = iterator.next();
-            try {
-                collectionData.add(
-                        collectionModel
-                                .getDeclaredConstructor(Document.class)
-                                .newInstance(document)
-                );
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                e.printStackTrace();
-            }
+        for (Document document : database.getCollection(Database.Collection.REGIONS).find()) {
+            regionsTable
+                    .getItems()
+                    .add(new RegionsModel(document));
         }
 
-        collectionTableView.setItems(collectionData);
-        return collectionTableView;
+        for (Document document : database.getCollection(Database.Collection.LANDS).find()) {
+            landsTable
+                    .getItems()
+                    .add(new LandsModel(document));
+        }
+
+        for (Document document : database.getCollection(Database.Collection.LAND_OWNERS).find()) {
+            ownersTable
+                    .getItems()
+                    .add(new LandOwnersModel(document));
+        }
+
     }
 
-    public Database.Collection getSelectedTableCollection() {
-        return selectedTableCollection;
+    public void selectCollection(Database.Collection collection) {
+        hideTables();
+        setSelectedCollection(collection);
+        setSelectedTableCollection(collection);
     }
 
-    public TableView<? extends CollectionModel> getSelectedTableView() {
-        return tableViewMap.get(getSelectedTableCollection());
+    public void hideTables() {
+        usersTable.setVisible(false);
+        landsTable.setVisible(false);
+        ownersTable.setVisible(false);
+        regionsTable.setVisible(false);
     }
 
-    private void setSelectedCollection(Database.Collection collection) {
-        selectedTableCollection = collection;
-        tableViewMap.get(collection).setVisible(true);
-        choiceBox.setValue(selectedTableCollection);
+    public void showTable(Database.Collection collection) {
+        getTableCollection(collection).setVisible(true);
+    }
+
+    private TableView<?> getTableCollection(Database.Collection collection) {
+        return switch (collection) {
+            case LAND_OWNERS -> ownersTable;
+            case REGIONS -> regionsTable;
+            case LANDS -> landsTable;
+            case USERS -> usersTable;
+        };
+    }
+
+    public void setSelectedCollection(Database.Collection collection) {
+        selectedCollection = collection;
+    }
+
+    public void setSelectedTableCollection(Database.Collection collection) {
+        showTable(collection);
+    }
+
+    public void onChoiceBoxAction(ActionEvent event) {
+        selectCollection(choiceBox.getValue());
+        System.out.println("Collection is selected");
+    }
+
+    public void onInputSearchField(KeyEvent event) {
+    }
+
+    public void onAddButtonClick(MouseEvent event) {
+
+    }
+
+    public void onEditButtonClick(MouseEvent event) {
+    }
+
+    public void onDeleteButtonClick(MouseEvent event) {
     }
 }

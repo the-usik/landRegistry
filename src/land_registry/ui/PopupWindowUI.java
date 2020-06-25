@@ -1,4 +1,4 @@
-package land_registry.components.ui;
+package land_registry.ui;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

@@ -3,8 +3,8 @@ package land_registry;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import land_registry.components.database.Database;
 import land_registry.components.SceneManager;
+import land_registry.database.Database;
 
 public class Main extends Application {
     private final SceneManager sceneManager;

@@ -1,13 +1,12 @@
-package land_registry.components.ui;
+package land_registry.ui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import land_registry.components.ui.utils.FormNode;
-import land_registry.components.ui.utils.FormNodeGroup;
+import land_registry.ui.utils.FormNode;
+import land_registry.ui.utils.FormNodeGroup;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

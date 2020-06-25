@@ -9,19 +9,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import land_registry.components.database.Database;
+import land_registry.database.Database;
 import land_registry.components.SceneManager;
 import org.bson.Document;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static land_registry.utils.Security.generateHash;
 
 public class AuthController extends Controller implements Initializable {
     @FXML
@@ -42,7 +39,6 @@ public class AuthController extends Controller implements Initializable {
 
     @Override
     public void onMainContextInit() {
-
     }
 
     @Override
@@ -78,23 +74,5 @@ public class AuthController extends Controller implements Initializable {
         FindIterable<Document> findResult = usersCollection.find(authDocument);
 
         return (findResult.first() != null);
-    }
-
-    private @Nullable String generateHash(@NotNull String inputString) {
-        try {
-            String HASH_GENERATION_ALGORITHM = "SHA-256";
-            MessageDigest messageDigest = MessageDigest.getInstance(HASH_GENERATION_ALGORITHM);
-            byte[] encodedBytes = messageDigest.digest(inputString.getBytes(StandardCharsets.UTF_8));
-
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < encodedBytes.length; i++) {
-                String hex = Integer.toHexString(0xff & encodedBytes[i]);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        }
     }
 }

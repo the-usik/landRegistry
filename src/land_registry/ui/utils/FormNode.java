@@ -1,4 +1,4 @@
-package land_registry.components.ui.utils;
+package land_registry.ui.utils;
 
 import javafx.scene.Node;
 

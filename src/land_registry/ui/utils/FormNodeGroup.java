@@ -1,8 +1,6 @@
-package land_registry.components.ui.utils;
+package land_registry.ui.utils;
 
 import javafx.scene.Node;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
