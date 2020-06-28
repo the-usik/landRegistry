@@ -21,6 +21,7 @@ public class Database {
         REGIONS("regions"), LAND_OWNERS("landOwners");
 
         private final String name;
+        private MongoCollection<Document> dbCollection;
 
         Collection(String name) {
             this.name = name;
@@ -28,6 +29,14 @@ public class Database {
 
         public String getName() {
             return name;
+        }
+
+        public MongoCollection<Document> getDbCollection() {
+            return dbCollection;
+        }
+
+        public void setDbCollection(MongoCollection<Document> dbCollection) {
+            this.dbCollection = dbCollection;
         }
     }
 
@@ -37,24 +46,13 @@ public class Database {
         MongoDatabase mongoDatabase = mongoClient.getDatabase(DATABASE_NAME);
 
         for (Collection collection : Collection.values()) {
-            collections.put(collection, mongoDatabase.getCollection(collection.getName()));
+            collection.setDbCollection(mongoDatabase.getCollection(collection.getName()));
+            collections.put(collection, collection.getDbCollection());
         }
-    }
-
-    public static String getDatabaseName() {
-        return DATABASE_NAME;
-    }
-
-    public static String getDatabaseHost() {
-        return DATABASE_HOST;
     }
 
     public MongoCollection<Document> getCollection(Collection collection) {
         return collections.get(collection);
-    }
-
-    public HashMap<Collection, MongoCollection<Document>> getCollections() {
-        return collections;
     }
 
     public void closeConnection() {

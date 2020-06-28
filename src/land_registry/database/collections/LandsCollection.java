@@ -17,4 +17,5 @@ public class LandsCollection extends Collection<LandsModel> {
         for (Document document : findIterable)
             observableList.add(new LandsModel(document));
     }
+
 }

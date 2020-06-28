@@ -11,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import land_registry.database.Database;
 import land_registry.database.collections.*;
+import land_registry.database.models.CollectionModel;
+import land_registry.ui.PopupFormUI;
 
 public class MainController extends Controller {
     @FXML
@@ -50,10 +52,10 @@ public class MainController extends Controller {
     }
 
     private void initTables() {
-        usersCollection = new UsersCollection(database.getCollection(Database.Collection.USERS));
-        landsCollection = new LandsCollection(database.getCollection(Database.Collection.LANDS));
-        regionsCollection = new RegionsCollection(database.getCollection(Database.Collection.REGIONS));
-        landOwnersCollection = new LandOwnersCollection(database.getCollection(Database.Collection.LAND_OWNERS));
+        usersCollection = new UsersCollection(Database.Collection.USERS.getDbCollection());
+        landsCollection = new LandsCollection(Database.Collection.LANDS.getDbCollection());
+        regionsCollection = new RegionsCollection(Database.Collection.REGIONS.getDbCollection());
+        landOwnersCollection = new LandOwnersCollection(Database.Collection.LAND_OWNERS.getDbCollection());
 
         tableWrapperPane.getChildren().setAll(
                 usersCollection.getTableView(), landsCollection.getTableView(),
@@ -92,7 +94,7 @@ public class MainController extends Controller {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Collection> T getCollection(Database.Collection collection) {
+    private <K extends CollectionModel, T extends Collection<K>> T getCollection(Database.Collection collection) {
         return switch (collection) {
             case LANDS -> (T) landsCollection;
             case USERS -> (T) usersCollection;
@@ -113,7 +115,9 @@ public class MainController extends Controller {
     }
 
     public void onAddButtonClick(MouseEvent event) {
-
+        PopupFormUI popupFormUI = new PopupFormUI();
+        // TODO: showing the add popup for collections (users, lands, landOwners, regions)
+        popupFormUI.show(getStage());
     }
 
     public void onEditButtonClick(MouseEvent event) {
