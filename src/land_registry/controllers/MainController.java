@@ -1,29 +1,16 @@
 package land_registry.controllers;
 
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import land_registry.database.Database;
-import land_registry.database.models.CollectionModel;
-import land_registry.database.models.*;
-import org.bson.Document;
+import land_registry.database.collections.*;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-@SuppressWarnings("unchecked")
-public class MainController extends Controller implements Initializable {
+public class MainController extends Controller {
     @FXML
     private Button addButton;
 
@@ -45,10 +32,10 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private ChoiceBox<Database.Collection> choiceBox;
 
-    private TableView<UsersModel> usersTable;
-    private TableView<LandsModel> landsTable;
-    private TableView<RegionsModel> regionsTable;
-    private TableView<LandOwnersModel> ownersTable;
+    private UsersCollection usersCollection;
+    private LandsCollection landsCollection;
+    private RegionsCollection regionsCollection;
+    private LandOwnersCollection landOwnersCollection;
 
     private Database.Collection selectedCollection;
 
@@ -56,88 +43,24 @@ public class MainController extends Controller implements Initializable {
     public void onShowing() {
         database = mainContext.getDatabase();
         initTables();
-        fillTables();
         initChoiceBox();
         initEventHandlers();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
-    @Override
-    public void onMainContextInit() {
-
-    }
-
     private void initTables() {
-        usersTable = new TableView<>();
-        landsTable = new TableView<>();
-        regionsTable = new TableView<>();
-        ownersTable = new TableView<>();
+        usersCollection = new UsersCollection(database.getCollection(Database.Collection.USERS));
+        landsCollection = new LandsCollection(database.getCollection(Database.Collection.LANDS));
+        regionsCollection = new RegionsCollection(database.getCollection(Database.Collection.REGIONS));
+        landOwnersCollection = new LandOwnersCollection(database.getCollection(Database.Collection.LAND_OWNERS));
 
-        ObservableList<UsersModel> usersObservableList = FXCollections.observableArrayList();
-        ObservableList<LandsModel> landsObservableList = FXCollections.observableArrayList();
-        ObservableList<RegionsModel> regionsObservableList = FXCollections.observableArrayList();
-        ObservableList<LandOwnersModel> ownersObservableList = FXCollections.observableArrayList();
-
-        database
-                .getCollection(Database.Collection.USERS)
-                .find()
-                .first()
-                .forEach((key, value) -> {
-                    TableColumn<UsersModel, String> column = new TableColumn<>(key);
-                    column.setCellValueFactory(new PropertyValueFactory<>(key));
-                    usersTable.getColumns().add(column);
-                });
-
-
-        database
-                .getCollection(Database.Collection.LANDS)
-                .find()
-                .first()
-                .forEach((key, value) -> {
-                    TableColumn<LandsModel, String> column = new TableColumn<>(key);
-                    column.setCellValueFactory(new PropertyValueFactory<>(key));
-                    landsTable.getColumns().add(column);
-                });
-
-
-        database
-                .getCollection(Database.Collection.REGIONS)
-                .find()
-                .first()
-                .forEach((key, value) -> {
-                    TableColumn<RegionsModel, String> column = new TableColumn<>(key);
-                    column.setCellValueFactory(new PropertyValueFactory<>(key));
-                    regionsTable.getColumns().add(column);
-                });
-
-
-        database
-                .getCollection(Database.Collection.LAND_OWNERS)
-                .find()
-                .first()
-                .forEach((key, value) -> {
-                    TableColumn<LandOwnersModel, String> column = new TableColumn<>(key);
-                    column.setCellValueFactory(new PropertyValueFactory<>(key));
-                    ownersTable.getColumns().add(column);
-                });
-
-        usersTable.setItems(usersObservableList);
-        landsTable.setItems(landsObservableList);
-        ownersTable.setItems(ownersObservableList);
-        regionsTable.setItems(regionsObservableList);
-
-        tableWrapperPane
-                .getChildren()
-                .addAll(usersTable, landsTable, regionsTable, ownersTable);
+        tableWrapperPane.getChildren().setAll(
+                usersCollection.getTableView(), landsCollection.getTableView(),
+                regionsCollection.getTableView(), landOwnersCollection.getTableView()
+        );
     }
 
     private void initChoiceBox() {
-        choiceBox
-                .getItems()
-                .addAll(Database.Collection.values());
+        choiceBox.getItems().addAll(Database.Collection.values());
     }
 
     private void initEventHandlers() {
@@ -149,70 +72,39 @@ public class MainController extends Controller implements Initializable {
 
     }
 
-    private void fillTables() {
-        for (Document document : database.getCollection(Database.Collection.USERS).find()) {
-            usersTable
-                    .getItems()
-                    .add(new UsersModel(document));
-        }
-
-        for (Document document : database.getCollection(Database.Collection.REGIONS).find()) {
-            regionsTable
-                    .getItems()
-                    .add(new RegionsModel(document));
-        }
-
-        for (Document document : database.getCollection(Database.Collection.LANDS).find()) {
-            landsTable
-                    .getItems()
-                    .add(new LandsModel(document));
-        }
-
-        for (Document document : database.getCollection(Database.Collection.LAND_OWNERS).find()) {
-            ownersTable
-                    .getItems()
-                    .add(new LandOwnersModel(document));
-        }
-
+    private void hideCollections() {
+        usersCollection.getTableView().setVisible(false);
+        landsCollection.getTableView().setVisible(false);
+        regionsCollection.getTableView().setVisible(false);
+        landOwnersCollection.getTableView().setVisible(false);
     }
 
-    public void selectCollection(Database.Collection collection) {
-        hideTables();
+    private void showCollection(Database.Collection collection) {
+        getCollection(collection).getTableView().setVisible(true);
+    }
+
+    private void selectCollection(Database.Collection collection) {
+        hideCollections();
         setSelectedCollection(collection);
-        setSelectedTableCollection(collection);
+        showCollection(selectedCollection);
     }
 
-    public void hideTables() {
-        usersTable.setVisible(false);
-        landsTable.setVisible(false);
-        ownersTable.setVisible(false);
-        regionsTable.setVisible(false);
-    }
-
-    public void showTable(Database.Collection collection) {
-        getTableCollection(collection).setVisible(true);
-    }
-
-    private TableView<?> getTableCollection(Database.Collection collection) {
+    @SuppressWarnings("unchecked")
+    private <T extends Collection> T getCollection(Database.Collection collection) {
         return switch (collection) {
-            case LAND_OWNERS -> ownersTable;
-            case REGIONS -> regionsTable;
-            case LANDS -> landsTable;
-            case USERS -> usersTable;
+            case LANDS -> (T) landsCollection;
+            case USERS -> (T) usersCollection;
+            case REGIONS -> (T) regionsCollection;
+            case LAND_OWNERS -> (T) landOwnersCollection;
         };
     }
 
-    public void setSelectedCollection(Database.Collection collection) {
-        selectedCollection = collection;
-    }
-
-    public void setSelectedTableCollection(Database.Collection collection) {
-        showTable(collection);
+    public void setSelectedCollection(Database.Collection selectedCollection) {
+        this.selectedCollection = selectedCollection;
     }
 
     public void onChoiceBoxAction(ActionEvent event) {
         selectCollection(choiceBox.getValue());
-        System.out.println("Collection is selected");
     }
 
     public void onInputSearchField(KeyEvent event) {
@@ -227,4 +119,5 @@ public class MainController extends Controller implements Initializable {
 
     public void onDeleteButtonClick(MouseEvent event) {
     }
+
 }

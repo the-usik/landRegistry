@@ -4,14 +4,16 @@ import javafx.stage.Stage;
 import land_registry.Main;
 import land_registry.database.Database;
 
-public abstract class Controller {
+public class Controller {
     protected Stage stage;
     protected Main mainContext;
     protected Database database;
 
-    public abstract void onShowing();
+    public void onShowing() {
+    }
 
-    public abstract void onMainContextInit();
+    public void onMainContextInit() {
+    }
 
     public Stage getStage() {
         return stage;
