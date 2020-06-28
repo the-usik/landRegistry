@@ -9,8 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import land_registry.database.Database;
 import land_registry.components.SceneManager;
+import land_registry.database.Database;
 import org.bson.Document;
 
 import java.net.URL;
